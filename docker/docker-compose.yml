@@ -1,0 +1,27 @@
+version: '3.3'
+
+services:
+  tagd-dashboard-app:
+    image: tagd-dashboard-app
+    build:
+      context: ../
+      dockerfile: ${DTK_HOME}/dev/vuejs/node/16/buster-slim/Dockerfile
+      args:
+        DTK_VERSION: ${DTK_VERSION}
+    container_name: tagd-dashboard-app
+    hostname: tagd-dashboard-app
+    ports:
+      - 3138:3138
+    restart: always
+    volumes:
+      - ~/.ssh:/home/node/.ssh
+      - ../:/app
+    environment:
+      - PORT=3138
+      - NODE_UID=${USER_ID}
+      - NODE_GUID=${GROUP_ID}
+
+networks:
+  default:
+    name: dev
+    external: true
