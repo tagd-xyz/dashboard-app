@@ -36,9 +36,9 @@ case ${ENV} in
     firebaseAppId=${!firebaseAppId}
     firebaseMeasurementId="FIREBASE_MEASUREMENT_ID_${ENV}"
     firebaseMeasurementId=${!firebaseMeasurementId}
-    firebaseTenantIdResellers="FIREBASE_TENANT_ID_RESELLERS${ENV}"
+    firebaseTenantIdResellers="FIREBASE_TENANT_ID_RESELLERS_${ENV}"
     firebaseTenantIdResellers=${!firebaseTenantIdResellers}
-    firebaseTenantIdRetailers="FIREBASE_TENANT_ID_RETAILERS${ENV}"
+    firebaseTenantIdRetailers="FIREBASE_TENANT_ID_RETAILERS_${ENV}"
     firebaseTenantIdRetailers=${!firebaseTenantIdRetailers}
     ;;
 esac
