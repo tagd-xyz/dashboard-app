@@ -6,7 +6,7 @@
     </p>
 
     <div class="row q-col-gutter-lg">
-      <div class="col-2">
+      <div class="col-2" v-if="isReseller">
         <avatar-upload
           :actorId="actorId"
           :logo="data.logoSmallUrl"
@@ -15,12 +15,12 @@
           ref="uploader"
         />
       </div>
-      <div class="col">
+      <div class="col" v-if="isReseller">
         <q-form @submit.prevent="onSubmit">
           <q-input
             v-model="data.name"
             label="Name"
-            hint="Enter the name of the reseller"
+            hint="Enter the name of reseller"
             placeholder="i.e. eBay"
             :rules="[
               (val) => (val && val.length > 0) || 'This field is required',
@@ -33,6 +33,34 @@
             label="Website"
             hint="Enter the website URL"
             placeholder="i.e. https::/www.ebay.co.uk"
+            :disable="isFetching"
+          />
+
+          <q-separator color="primary" class="q-my-md" />
+
+          <div class="column items-end">
+            <div class="col">
+              <q-btn
+                label="Update"
+                type="submit"
+                color="primary"
+                :loading="isFetching"
+                :disabled="!isSubmitEnabled"
+              />
+            </div>
+          </div>
+        </q-form>
+      </div>
+      <div class="col" v-if="isRetailer">
+        <q-form @submit.prevent="onSubmit">
+          <q-input
+            v-model="data.name"
+            label="Name"
+            hint="Enter the name of retailer"
+            placeholder="i.e. eBay"
+            :rules="[
+              (val) => (val && val.length > 0) || 'This field is required',
+            ]"
             :disable="isFetching"
           />
 
@@ -74,6 +102,7 @@ const initialData = {
   website: '',
   logoSmallUrl: '',
   logoUrl: '',
+  type: null,
 };
 
 const data = ref(initialData);
@@ -88,11 +117,18 @@ const isSubmitEnabled = computed(() => {
 
 const isFetching = computed(() => {
   return storeMe.is.fetching;
-  // return store.isFetching;
 });
 
 const actorId = computed(() => {
   return route.params.id;
+});
+
+const isReseller = computed(() => {
+  return 'reseller' == data.value.type;
+});
+
+const isRetailer = computed(() => {
+  return 'retailer' == data.value.type;
 });
 
 // const uploadLogoMessage = computed(() => {
@@ -109,6 +145,7 @@ function fetch() {
     data.value.website = actor.website;
     data.value.logoSmallUrl = actor.logoSmallUrl;
     data.value.logoUrl = actor.logoUrl;
+    data.value.type = actor.type;
   });
 }
 
