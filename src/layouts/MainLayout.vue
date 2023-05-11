@@ -17,7 +17,9 @@
             >
               <q-item-section>
                 <q-item-label>{{ actor.name }}</q-item-label>
-                <q-item-label caption>Reseller</q-item-label>
+                <q-item-label caption class="actor">{{
+                  actor.type
+                }}</q-item-label>
               </q-item-section>
             </q-item>
             <q-item clickable v-close-popup @click="showDialog = true">
@@ -99,3 +101,9 @@ onMounted(() => {
   storeMe.fetch();
 });
 </script>
+
+<style scoped>
+.actor {
+  text-transform: capitalize;
+}
+</style>

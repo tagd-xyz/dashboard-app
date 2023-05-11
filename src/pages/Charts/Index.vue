@@ -48,7 +48,5 @@ import { onMounted, ref } from 'vue';
 const tab = ref('bars');
 const splitterModel = ref(10);
 
-onMounted(() => {
-  console.log('mounted');
-});
+onMounted(() => {});
 </script>
