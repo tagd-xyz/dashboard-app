@@ -12,9 +12,14 @@ const routes = [
         component: () => import('src/pages/Profile/Show.vue'),
       },
       {
-        name: 'charts',
-        path: 'charts',
-        component: () => import('src/pages/Charts/Index.vue'),
+        name: 'home',
+        path: 'home',
+        component: () => import('src/pages/Home/Index.vue'),
+      },
+      {
+        name: 'products',
+        path: 'products',
+        component: () => import('src/pages/Products/Index.vue'),
       },
     ],
   },

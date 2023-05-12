@@ -32,7 +32,8 @@
       </q-toolbar>
 
       <q-tabs align="left">
-        <q-route-tab to="/charts" label="Charts" />
+        <q-route-tab to="/home" label="Home" />
+        <q-route-tab to="/products" label="Products" />
       </q-tabs>
     </q-header>
 

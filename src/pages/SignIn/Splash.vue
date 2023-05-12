@@ -43,7 +43,7 @@ onMounted(() => {
   setTimeout(() => {
     if (store.isSignedIn) {
       if (store.isEnabled) {
-        router.push({ name: 'charts' });
+        router.push({ name: 'home' });
       } else {
         showMessage.value = true;
       }
