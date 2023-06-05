@@ -27,14 +27,40 @@ ChartJS.register(
   Legend
 );
 
+// eslint-disable-next-line no-unused-vars
+const props = defineProps({
+  color: {
+    type: String,
+  },
+  label: {
+    type: String,
+    default: '',
+  },
+  labels: {
+    type: Array,
+    required: true,
+    default: () => {},
+  },
+  data: {
+    type: Array,
+    required: true,
+    default: () => {},
+  },
+});
+
 const data = computed(() => {
   return {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    title: 'test',
+    labels: props.labels,
+    fill: true,
     datasets: [
       {
-        label: 'Data One',
-        backgroundColor: '#f87979',
-        data: [40, 39, 10, 40, 39, 80, 40],
+        responsive: true,
+        label: props.label,
+        backgroundColor: props.color,
+        data: props.data,
+        tension: 0.7,
+        showLine: true,
       },
     ],
   };
@@ -44,6 +70,11 @@ const options = computed(() => {
   return {
     responsive: true,
     maintainAspectRatio: true,
+    plugins: {
+      legend: {
+        display: props.label != '',
+      },
+    },
   };
 });
 </script>
