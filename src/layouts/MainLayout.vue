@@ -33,7 +33,7 @@
 
       <q-tabs align="left">
         <q-route-tab to="/home" label="Home" />
-        <q-route-tab to="/products" label="Products" />
+        <q-route-tab to="/tags-issued" label="Tags Issued" />
       </q-tabs>
     </q-header>
 
