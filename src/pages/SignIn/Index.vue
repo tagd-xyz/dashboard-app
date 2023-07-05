@@ -52,15 +52,11 @@ function setAuthTenant() {
   } else {
     auth.tenantId = process.env.FIREBASE_TENANT_ID_RETAILERS;
   }
-  console.log('auth.tenantId', auth.tenantId);
   authUI.reset();
-  console.log('reset');
   authUI.start('#firebaseui-auth-container', config);
-  console.log('started');
 }
 
 function onTenantChange() {
-  console.log('tenant selected', tenant.value);
   setAuthTenant();
 }
 

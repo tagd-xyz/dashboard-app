@@ -11,11 +11,7 @@ export const useReferenceStore = defineStore('reference', {
       },
     };
   },
-  getters: {
-    // isSignedIn() {
-    //   return false !== this.user;
-    // },
-  },
+  getters: {},
   actions: {
     fetchBrands() {
       return new Promise((resolve, reject) => {

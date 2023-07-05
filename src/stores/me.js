@@ -13,9 +13,12 @@ export const useMeStore = defineStore('me', {
     };
   },
   getters: {
-    // isSignedIn() {
-    //   return false !== this.user;
-    // },
+    isReseller() {
+      return this.data?.actors?.some((actor) => actor.type === 'reseller');
+    },
+    isRetailer() {
+      return this.data?.actors?.some((actor) => actor.type === 'retailer');
+    },
   },
   actions: {
     fetch() {

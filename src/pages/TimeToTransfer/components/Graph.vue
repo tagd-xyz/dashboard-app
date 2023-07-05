@@ -5,20 +5,23 @@
       :labels="labels"
       :data="values"
       color="#70798c"
-      label="Total Items"
       v-if="!isLoading"
       style="height: 23rem"
+      label="Total Items"
     />
   </div>
 </template>
 
 <script setup>
 import Lines from 'components/Charts/Lines.vue';
-import { useRetailersTagsIssuedStore } from 'stores/retailersTagsIssued';
+import { useRetailersTimeToTransferStore } from 'stores/retailersTimeToTransfer';
+import { useResellersTimeToTransferStore } from 'stores/resellersTimeToTransfer';
+import { useMeStore } from 'stores/me';
 import { computed, onMounted, watch } from 'vue';
-import { date } from 'quasar';
 
-const retailersTagsIssuedStore = useRetailersTagsIssuedStore();
+const retailersTimeToTransferStore = useRetailersTimeToTransferStore();
+const resellersTimeToTransferStore = useResellersTimeToTransferStore();
+const storeMe = useMeStore();
 
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({
@@ -31,20 +34,6 @@ const props = defineProps({
     type: String,
     required: true,
     default: '',
-  },
-  status: {
-    type: String,
-    required: false,
-    default: () => {
-      return null;
-    },
-  },
-  customerRegistered: {
-    type: Boolean,
-    required: false,
-    default: () => {
-      return null;
-    },
   },
   transfersCount: {
     type: String,
@@ -63,46 +52,54 @@ const props = defineProps({
 });
 
 const labels = computed(() => {
-  return retailersTagsIssuedStore.graph.map((row) => {
-    return date.formatDate(row.datetime_interval, 'MMM Do');
+  return timeToTransferStore.value.graph.map((row) => {
+    const { t } = row;
+    return t > 1 ? `${t} days` : `${t} day`;
   });
 });
 
 const values = computed(() => {
-  return retailersTagsIssuedStore.graph.map((row) => {
+  return timeToTransferStore.value.graph.map((row) => {
     return row.total;
   });
 });
 
+const timeToTransferStore = computed(() => {
+  return isRetailer.value
+    ? retailersTimeToTransferStore
+    : resellersTimeToTransferStore;
+});
+
+const isRetailer = computed(() => {
+  return storeMe.isRetailer;
+});
+
 const isLoading = computed(() => {
-  return retailersTagsIssuedStore.is.fetchingGraph;
+  return timeToTransferStore.value.is.fetchingGraph;
 });
 
-const tansfersCountFilter = computed(() => {
+const transfersCountFilter = computed(() => {
   switch (props.transfersCount) {
-    case 'None':
-      return 'none';
-    case 'One':
-      return 'one';
-    case 'Two':
-      return 'two';
-    case 'Three':
-      return 'three';
-    case 'Four':
-      return 'four';
-    case 'Five or more':
-      return 'five_or_more';
-    default:
-      return null;
-  }
-});
-
-const customerRegisteredFilter = computed(() => {
-  switch (props.customerRegistered) {
-    case 'Registered':
-      return true;
-    case 'Unregistered':
-      return false;
+    case 'First':
+      return 1;
+    case 'Second':
+      return 2;
+    case 'Third':
+      return 3;
+    case 'Fourth':
+      return 4;
+    case 'Fifth':
+      return 5;
+    case 'Sixth':
+      return 6;
+    case 'Seventh':
+      return 7;
+    case 'Eighth':
+      return 8;
+    case 'Ninth':
+      return 9;
+    case 'Tenth':
+      return 10;
     default:
       return null;
   }
@@ -121,9 +118,7 @@ const filter = computed(() => {
     dateFrom: props.dateFrom,
     dateTo: props.dateTo,
     filter: {
-      status: props.status,
-      transfersCount: tansfersCountFilter.value,
-      customerRegistered: customerRegisteredFilter.value,
+      transfersCount: transfersCountFilter.value,
       brands: brandsFilter.value,
     },
   };
@@ -135,7 +130,7 @@ watch(filter, () => {
 
 function fetch() {
   if (filter.value.dateFrom != '' && filter.value.dateTo != '') {
-    retailersTagsIssuedStore.fetchGraph(filter.value);
+    timeToTransferStore.value.fetchGraph(filter.value);
   }
 }
 
