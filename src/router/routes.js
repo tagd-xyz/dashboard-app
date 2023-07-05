@@ -17,9 +17,14 @@ const routes = [
         component: () => import('src/pages/Home/Index.vue'),
       },
       {
-        name: 'products',
-        path: 'products',
-        component: () => import('src/pages/Products/Index.vue'),
+        name: 'tagsIssued',
+        path: 'tags-issued',
+        component: () => import('src/pages/TagsIssued/Index.vue'),
+      },
+      {
+        name: 'timeToTransfer',
+        path: 'time-to-transfer',
+        component: () => import('src/pages/TimeToTransfer/Index.vue'),
       },
     ],
   },

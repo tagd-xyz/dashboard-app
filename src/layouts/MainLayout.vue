@@ -31,9 +31,15 @@
         </q-btn-dropdown>
       </q-toolbar>
 
-      <q-tabs align="left">
+      <q-tabs align="left" v-if="isRetailer">
         <q-route-tab to="/home" label="Home" />
-        <q-route-tab to="/products" label="Products" />
+        <q-route-tab to="/tags-issued" label="Tags Issued" />
+        <q-route-tab to="/time-to-transfer" label="Time to transfer" />
+      </q-tabs>
+
+      <q-tabs align="left" v-if="isReseller">
+        <q-route-tab to="/home" label="Home" />
+        <q-route-tab to="/time-to-transfer" label="Time to transfer" />
       </q-tabs>
     </q-header>
 
@@ -81,6 +87,14 @@ const userName = computed(() => {
 
 const me = computed(() => {
   return storeMe.data;
+});
+
+const isReseller = computed(() => {
+  return storeMe.isReseller;
+});
+
+const isRetailer = computed(() => {
+  return storeMe.isRetailer;
 });
 
 function onSignOutClicked() {
