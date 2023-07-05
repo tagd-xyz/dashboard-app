@@ -9,15 +9,11 @@ export const useRetailersTagsIssuedStore = defineStore('retailersTagsIssued', {
       graph: [],
       is: {
         fetchingDetails: false,
-        fetchinGraph: false,
+        fetchingGraph: false,
       },
     };
   },
-  getters: {
-    // isSignedIn() {
-    //   return false !== this.user;
-    // },
-  },
+  getters: {},
   actions: {
     fetchList(page = 1, perPage = 10, filter = {}) {
       return new Promise((resolve, reject) => {
@@ -45,7 +41,7 @@ export const useRetailersTagsIssuedStore = defineStore('retailersTagsIssued', {
     },
     fetchGraph(filter = {}) {
       return new Promise((resolve, reject) => {
-        this.is.fetchinGraph = true;
+        this.is.fetchingGraph = true;
         api
           .get('retailers/reporting/tags-issued/graph', {
             params: filter,
@@ -59,7 +55,7 @@ export const useRetailersTagsIssuedStore = defineStore('retailersTagsIssued', {
             reject(error);
           })
           .finally(() => {
-            this.is.fetchinGraph = false;
+            this.is.fetchingGraph = false;
           });
       });
     },

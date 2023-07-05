@@ -21,6 +21,11 @@ const routes = [
         path: 'tags-issued',
         component: () => import('src/pages/TagsIssued/Index.vue'),
       },
+      {
+        name: 'timeToTransfer',
+        path: 'time-to-transfer',
+        component: () => import('src/pages/TimeToTransfer/Index.vue'),
+      },
     ],
   },
   {
