@@ -129,7 +129,7 @@ const rows = computed(() => {
           : 'Unregistered',
       status: row.status,
       name: row.item.name,
-      type: row.item.type,
+      type: row.item.type.name,
       transfersCount: row.stats?.count?.transferred_consumer ?? 0,
       brand: row.item.properties?.brand ?? '',
       model: row.item.properties?.model ?? '',
