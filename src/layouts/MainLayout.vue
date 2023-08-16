@@ -35,11 +35,13 @@
         <q-route-tab to="/home" label="Home" />
         <q-route-tab to="/tags-issued" label="Tags Issued" />
         <q-route-tab to="/time-to-transfer" label="Time to transfer" />
+        <q-route-tab to="/fraud-report" label="Fraud report" />
       </q-tabs>
 
       <q-tabs align="left" v-if="isReseller">
         <q-route-tab to="/home" label="Home" />
         <q-route-tab to="/time-to-transfer" label="Time to transfer" />
+        <q-route-tab to="/fraud-report" label="Fraud report" />
       </q-tabs>
     </q-header>
 
