@@ -26,6 +26,11 @@ const routes = [
         path: 'time-to-transfer',
         component: () => import('src/pages/TimeToTransfer/Index.vue'),
       },
+      {
+        name: 'fraudReport',
+        path: 'fraud-report',
+        component: () => import('src/pages/FraudReport/Index.vue'),
+      },
     ],
   },
   {
