@@ -3,20 +3,7 @@
     <div class="text-h6">Monthly summary</div>
     <div class="row">
       <div class="col q-ma-sm">
-        <q-card class="my-card">
-          <q-card-section>
-            <Lines color="#ee6055" label="Return Rate (WIP)" />
-          </q-card-section>
-          <q-card-section horizontal vertical-middle>
-            <div class="q-ma-sm">
-              <q-icon size="lg" name="north_east" color="negative" />
-            </div>
-            <div class="q-ma-sm text-h5 text-bold">5%</div>
-            <div class="q-ma-sm text-subtitle2">
-              Your competitors have a return date 5% higher
-            </div>
-          </q-card-section>
-        </q-card>
+        <return-rate label="Return Rate" />
       </div>
       <div class="col q-ma-sm">
         <avg-resale-value label="Avg. Resale Value" />
@@ -41,8 +28,8 @@
 </template>
 
 <script setup>
-import Lines from './components/Lines.vue';
 import AvgResaleValue from './components/AvgResaleValue.vue';
+import ReturnRate from './components/ReturnRate.vue';
 import PopularCategories from './components/PopularCategories.vue';
 import HighestResaleFreq from './components/HighestResaleFreq.vue';
 import PopularResalePlatforms from './components/PopularResalePlatforms.vue';
