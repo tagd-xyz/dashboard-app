@@ -6,6 +6,7 @@
     :columns="columns"
     row-key="name"
     :hide-bottom="true"
+    :loading="isFetching"
   >
     <template v-slot:body="props">
       <q-tr :props="props">
@@ -31,7 +32,7 @@
             />
           </span>
           <br />
-          <small>Items re-sold</small>
+          <small>{{ props.row.total > 1 ? 'Items' : 'Item' }} re-sold</small>
         </q-td>
       </q-tr>
     </template>
@@ -39,7 +40,29 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
+import { useRetailersPopularTypesStore } from 'stores/retailersPopularTypes';
+import { useResellersPopularTypesStore } from 'stores/resellersPopularTypes';
+import { useMeStore } from 'stores/me';
+
+const retailersPopularTypesStore = useRetailersPopularTypesStore();
+const resellersPopularTypesStore = useResellersPopularTypesStore();
+const storeMe = useMeStore();
+
+// const popularTypesStore = computed(() => {
+//   console.log('popularTypesStore', isRetailer.value
+//     ? 'retailersPopularTypesStore'
+//     : 'resellersPopularTypesStore');
+//   return isRetailer.value
+//     ? retailersPopularTypesStore
+//     : resellersPopularTypesStore;
+// });
+
+const isRetailer = computed(() => {
+  return storeMe.isRetailer;
+});
+
+const popularTypesStore = ref(null);
 
 const columns = ref([
   {
@@ -57,18 +80,34 @@ const columns = ref([
   },
 ]);
 
-const rows = ref([
-  {
-    name: 'Fashion',
-    total: 2000,
-    delta: 1,
-  },
-  {
-    name: 'Shoes',
-    total: 1750,
-    delta: -1,
-  },
-]);
+const rows = computed(() => {
+  if (!popularTypesStore.value) {
+    return [];
+  }
 
-onMounted(() => {});
+  return popularTypesStore.value.details.map((item) => {
+    return {
+      name: item.name,
+      total: item.total,
+      delta: 0,
+    };
+  });
+});
+
+const isFetching = computed(() => {
+  return popularTypesStore.value && popularTypesStore.value.isFetching;
+});
+
+watch (isRetailer, (current) => {
+  popularTypesStore.value = current
+    ? retailersPopularTypesStore
+    : resellersPopularTypesStore;
+});
+
+watch(popularTypesStore, (current) => {
+  current.fetch();
+});
+
+onMounted(() => {
+});
 </script>

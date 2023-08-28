@@ -6,6 +6,7 @@
     :columns="columns"
     row-key="name"
     :hide-bottom="true"
+    :loading="isFetching"
   >
     <template v-slot:body="props">
       <q-tr :props="props">
@@ -34,7 +35,7 @@
             />
           </span>
           <br />
-          <small>Items Re-Sold</small>
+          <small>{{ props.row.total > 1 ? 'Items' : 'Item' }} re-sold</small>
         </q-td>
       </q-tr>
     </template>
@@ -42,7 +43,24 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
+import { useRetailersPopularResellersStore } from 'stores/retailersPopularResellers';
+import { useResellersPopularResellersStore } from 'stores/resellersPopularResellers';
+import { useMeStore } from 'stores/me';
+
+const retailersPopularResellersStore = useRetailersPopularResellersStore();
+const resellersPopularResellersStore = useResellersPopularResellersStore();
+const storeMe = useMeStore();
+
+const popularResellersStore = computed(() => {
+  return isRetailer.value
+    ? retailersPopularResellersStore
+    : resellersPopularResellersStore;
+});
+
+const isRetailer = computed(() => {
+  return storeMe.isRetailer;
+});
 
 const columns = ref([
   {
@@ -66,15 +84,26 @@ const columns = ref([
   },
 ]);
 
-const rows = ref([
-  {
-    name: 'ebay',
-    total: '100',
-    delta: 1,
-    image:
-      'https://d3sfiwv4lracxf.cloudfront.net/eyJidWNrZXQiOiJ0b3RhbGx5LXRhZ2QtbWVkaWEtZGV2Iiwia2V5IjoicmVzZWxsZXJBdmF0YXJcLzk4ZjhiYTRlLTA4OGEtNGJlZi1hYjg0LTRmOTY1MzA3OTU1N1wvZWJheV9sZy5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjY0MCwiaGVpZ2h0Ijo2NDAsImZpdCI6Imluc2lkZSJ9fX0=',
-  },
-]);
+const rows = computed(() => {
+  return popularResellersStore.value.details.map((item) => {
+    console.log(item);
+    return {
+      name: item.name,
+      total: item.total,
+      delta: 0,
+      image: item.file,
+    };
+  });
+});
 
-onMounted(() => {});
+const isFetching = computed(() => {
+  return popularResellersStore.value.isFetching;
+});
+
+watch(popularResellersStore, (current) => {
+  current.fetch();
+});
+
+onMounted(() => {
+});
 </script>

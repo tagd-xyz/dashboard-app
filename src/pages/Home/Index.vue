@@ -5,7 +5,7 @@
       <div class="col q-ma-sm">
         <q-card class="my-card">
           <q-card-section>
-            <Lines color="#ee6055" label="Return Rate" />
+            <Lines color="#ee6055" label="Return Rate (WIP)" />
           </q-card-section>
           <q-card-section horizontal vertical-middle>
             <div class="q-ma-sm">
@@ -19,37 +19,7 @@
         </q-card>
       </div>
       <div class="col q-ma-sm">
-        <q-card class="my-card">
-          <q-card-section>
-            <Lines color="#60d394" label="Avg. Resale Value" />
-          </q-card-section>
-          <q-card-section horizontal vertical-middle>
-            <div class="q-ma-sm">
-              <q-icon size="lg" name="north_east" color="positive" />
-            </div>
-            <div class="q-ma-sm text-h5 text-bold">30%</div>
-            <div class="q-ma-sm text-subtitle2">
-              The average resale value of your products is increased by 30%
-            </div>
-          </q-card-section>
-        </q-card>
-      </div>
-      <div class="col q-ma-sm">
-        <q-card class="my-card">
-          <q-card-section>
-            <Lines color="#60d394" label="Resell Avg. Price" />
-          </q-card-section>
-          <q-card-section horizontal vertical-middle>
-            <div class="q-ma-sm">
-              <q-icon size="lg" name="north_east" color="positive" />
-            </div>
-            <div class="q-ma-sm text-h5 text-bold">10%</div>
-            <div class="q-ma-sm text-subtitle2">
-              Your customers resell average price is 10% higher than the
-              competition
-            </div>
-          </q-card-section>
-        </q-card>
+        <avg-resale-value label="Avg. Resale Value" />
       </div>
     </div>
     <!-- row -->
@@ -59,7 +29,7 @@
         <popular-categories />
       </div>
       <div class="col q-ma-sm">
-        <div class="text-h6">Highest resale frequency</div>
+        <div class="text-h6">Highest resale frequency (WIP)</div>
         <highest-resale-freq />
       </div>
       <div class="col q-ma-sm">
@@ -72,11 +42,16 @@
 
 <script setup>
 import Lines from './components/Lines.vue';
+import AvgResaleValue from './components/AvgResaleValue.vue';
 import PopularCategories from './components/PopularCategories.vue';
 import HighestResaleFreq from './components/HighestResaleFreq.vue';
 import PopularResalePlatforms from './components/PopularResalePlatforms.vue';
-
+// import { useCurrencyStore } from 'stores/retailersCurrency';
 import { onMounted } from 'vue';
 
-onMounted(() => {});
+// const currencyStore = useCurrencyStore();
+
+onMounted(() => {
+  // currencyStore.fetch();
+});
 </script>
