@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="text-h6">Highest resale frequency (WIP)</div>
+    <div class="text-h6">Popular re-sale items</div>
     <q-table
       dense
       flat
