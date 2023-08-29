@@ -14,7 +14,7 @@
 
 <script setup>
 import Lines from 'components/Charts/Lines.vue';
-import { useRetailersFraudReportStore } from 'stores/retailers/fraudReportraudReport';
+import { useRetailersFraudReportStore } from 'stores/retailers/fraudReport';
 import { useResellersFraudReportStore } from 'stores/resellers/fraudReport';
 import { useMeStore } from 'stores/me';
 import { computed, onMounted, watch } from 'vue';
