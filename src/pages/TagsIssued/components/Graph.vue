@@ -14,7 +14,7 @@
 
 <script setup>
 import Lines from 'components/Charts/Lines.vue';
-import { useRetailersTagsIssuedStore } from 'stores/retailersTagsIssued';
+import { useRetailersTagsIssuedStore } from 'stores/retailers/tagsIssued';
 import { computed, onMounted, watch } from 'vue';
 import { date } from 'quasar';
 

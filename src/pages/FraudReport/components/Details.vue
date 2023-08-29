@@ -54,8 +54,8 @@
 </template>
 
 <script setup>
-import { useRetailersFraudReportStore } from 'stores/retailersFraudReport';
-import { useResellersFraudReportStore } from 'stores/resellersFraudReport';
+import { useRetailersFraudReportStore } from 'stores/retailers/fraudReport';
+import { useResellersFraudReportStore } from 'stores/resellers/fraudReport';
 import { useMeStore } from 'stores/me';
 import { computed, onMounted, ref, watch } from 'vue';
 import { date } from 'quasar';

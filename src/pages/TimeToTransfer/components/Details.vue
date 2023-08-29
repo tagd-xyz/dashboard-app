@@ -62,8 +62,8 @@
 </template>
 
 <script setup>
-import { useRetailersTimeToTransferStore } from 'stores/retailersTimeToTransfer';
-import { useResellersTimeToTransferStore } from 'stores/resellersTimeToTransfer';
+import { useRetailersTimeToTransferStore } from 'stores/retailers/timeToTransfer';
+import { useResellersTimeToTransferStore } from 'stores/resellers/timeToTransfer';
 import { useMeStore } from 'stores/me';
 import { computed, onMounted, ref, watch } from 'vue';
 import { date } from 'quasar';
