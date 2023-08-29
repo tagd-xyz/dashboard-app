@@ -36,8 +36,8 @@
 
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue';
-import { useRetailersAvgResaleValueStore } from 'stores/retailersAvgResaleValue';
-import { useResellersAvgResaleValueStore } from 'stores/resellersAvgResaleValue';
+import { useRetailersAvgResaleValueStore } from 'stores/retailers/avgResaleValue';
+import { useResellersAvgResaleValueStore } from 'stores/resellers/avgResaleValue';
 import { useMeStore } from 'stores/me';
 import {
   Chart as ChartJS,
@@ -137,8 +137,7 @@ const isLoading = computed(() => {
   return avgResaleValuesStore.value && avgResaleValuesStore.value.isFetching;
 });
 
-
-watch (isRetailer, (current) => {
+watch(isRetailer, (current) => {
   avgResaleValuesStore.value = current
     ? retailersAvgResaleValueStore
     : resellersAvgResaleValueStore;
@@ -148,6 +147,5 @@ watch(avgResaleValuesStore, (current) => {
   current.fetch();
 });
 
-onMounted(() => {
-});
+onMounted(() => {});
 </script>

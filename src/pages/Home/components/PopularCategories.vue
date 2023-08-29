@@ -44,8 +44,8 @@
 
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue';
-import { useRetailersPopularTypesStore } from 'stores/retailersPopularTypes';
-import { useResellersPopularTypesStore } from 'stores/resellersPopularTypes';
+import { useRetailersPopularTypesStore } from 'stores/retailers/popularTypes';
+import { useResellersPopularTypesStore } from 'stores/resellers/popularTypes';
 import { useMeStore } from 'stores/me';
 
 const retailersPopularTypesStore = useRetailersPopularTypesStore();
@@ -92,7 +92,7 @@ const isFetching = computed(() => {
   return popularTypesStore.value && popularTypesStore.value.isFetching;
 });
 
-watch (isRetailer, (current) => {
+watch(isRetailer, (current) => {
   popularTypesStore.value = current
     ? retailersPopularTypesStore
     : resellersPopularTypesStore;
@@ -102,6 +102,5 @@ watch(popularTypesStore, (current) => {
   current.fetch();
 });
 
-onMounted(() => {
-});
+onMounted(() => {});
 </script>

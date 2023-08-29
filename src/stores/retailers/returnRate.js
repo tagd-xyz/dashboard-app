@@ -1,8 +1,7 @@
 import { defineStore } from 'pinia';
 import { api } from 'boot/axios';
 
-export const useRetailersReturnRateStore = defineStore(
-  'retailersReturnRate',
+export const useRetailersReturnRateStore = defineStore('retailersReturnRate',
   {
     persist: true,
     state: () => {

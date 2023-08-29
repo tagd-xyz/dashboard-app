@@ -57,7 +57,7 @@
 </template>
 
 <script setup>
-import { useRetailersTagsIssuedStore } from 'stores/retailersTagsIssued';
+import { useRetailersTagsIssuedStore } from 'stores/retailers/tagsIssued';
 import { computed, onMounted, ref, watch } from 'vue';
 import { date } from 'quasar';
 

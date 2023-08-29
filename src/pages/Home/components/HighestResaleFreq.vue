@@ -46,8 +46,8 @@
 
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue';
-import { useRetailersResaleFrequencyStore } from 'stores/retailersResaleFrequency';
-import { useResellersResaleFrequencyStore } from 'stores/resellersResaleFrequency';
+import { useRetailersResaleFrequencyStore } from 'stores/retailers/resaleFrequency';
+import { useResellersResaleFrequencyStore } from 'stores/resellers/resaleFrequency';
 import { useMeStore } from 'stores/me';
 
 const retailersResaleFrequencyStore = useRetailersResaleFrequencyStore();
@@ -101,7 +101,7 @@ const isFetching = computed(() => {
   return resaleFrequencyStore.value && resaleFrequencyStore.value.isFetching;
 });
 
-watch (isRetailer, (current) => {
+watch(isRetailer, (current) => {
   resaleFrequencyStore.value = current
     ? retailersResaleFrequencyStore
     : resellersResaleFrequencyStore;
