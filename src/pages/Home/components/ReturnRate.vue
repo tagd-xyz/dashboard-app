@@ -59,14 +59,6 @@ ChartJS.register(
 
 const retailersReturnRateStore = useRetailersReturnRateStore();
 
-// eslint-disable-next-line no-unused-vars
-const props = defineProps({
-  label: {
-    type: String,
-    default: 'label',
-  },
-});
-
 const data = computed(() => {
   return {
     title: 'test',
@@ -74,7 +66,7 @@ const data = computed(() => {
     fill: true,
     datasets: [
       {
-        label: props.label,
+        label: 'Return Rate',
         backgroundColor: color.value,
         data: values.value,
         tension: 0.7,
@@ -83,13 +75,6 @@ const data = computed(() => {
     ],
   };
 });
-
-// const average = computed(() => {
-//   if (values.value.length === 0) return 0;
-
-//   const avg = values.value.reduce((x, y) => x + y) / values.value.length;
-//   return Math.round(avg * 100) / 100;
-// });
 
 const labels = computed(() => {
   return retailersReturnRateStore.graph.map((item) => {

@@ -1,42 +1,45 @@
 <template>
-  <q-table
-    dense
-    flat
-    :rows="rows"
-    :columns="columns"
-    row-key="name"
-    :hide-bottom="true"
-    :loading="isFetching"
-  >
-    <template v-slot:body="props">
-      <q-tr :props="props">
-        <q-td key="name" :props="props">
-          <span class="text-bold">
-            {{ props.row.name }}
-          </span>
-        </q-td>
-        <q-td key="total" :props="props">
-          <span class="text-bold">
-            {{ props.row.total }}
-            <q-icon
-              size="xs"
-              name="north_east"
-              color="positive"
-              v-if="props.row.delta > 0"
-            />
-            <q-icon
-              size="xs"
-              name="south_east"
-              color="negative"
-              v-if="props.row.delta < 0"
-            />
-          </span>
-          <br />
-          <small>{{ props.row.total > 1 ? 'Items' : 'Item' }} re-sold</small>
-        </q-td>
-      </q-tr>
-    </template>
-  </q-table>
+  <div>
+    <div class="text-h6">Popular categories</div>
+    <q-table
+      dense
+      flat
+      :rows="rows"
+      :columns="columns"
+      row-key="name"
+      :hide-bottom="true"
+      :loading="isFetching"
+    >
+      <template v-slot:body="props">
+        <q-tr :props="props">
+          <q-td key="name" :props="props">
+            <span class="text-bold">
+              {{ props.row.name }}
+            </span>
+          </q-td>
+          <q-td key="total" :props="props">
+            <span class="text-bold">
+              {{ props.row.total }}
+              <q-icon
+                size="xs"
+                name="north_east"
+                color="positive"
+                v-if="props.row.delta > 0"
+              />
+              <q-icon
+                size="xs"
+                name="south_east"
+                color="negative"
+                v-if="props.row.delta < 0"
+              />
+            </span>
+            <br />
+            <small>{{ props.row.total > 1 ? 'Items' : 'Item' }} re-sold</small>
+          </q-td>
+        </q-tr>
+      </template>
+    </q-table>
+  </div>
 </template>
 
 <script setup>
@@ -48,15 +51,6 @@ import { useMeStore } from 'stores/me';
 const retailersPopularTypesStore = useRetailersPopularTypesStore();
 const resellersPopularTypesStore = useResellersPopularTypesStore();
 const storeMe = useMeStore();
-
-// const popularTypesStore = computed(() => {
-//   console.log('popularTypesStore', isRetailer.value
-//     ? 'retailersPopularTypesStore'
-//     : 'resellersPopularTypesStore');
-//   return isRetailer.value
-//     ? retailersPopularTypesStore
-//     : resellersPopularTypesStore;
-// });
 
 const isRetailer = computed(() => {
   return storeMe.isRetailer;

@@ -35,7 +35,10 @@
 </template>
 
 <script setup>
+import { computed, onMounted, ref, watch } from 'vue';
 import { useRetailersAvgResaleValueStore } from 'stores/retailersAvgResaleValue';
+import { useResellersAvgResaleValueStore } from 'stores/resellersAvgResaleValue';
+import { useMeStore } from 'stores/me';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -47,7 +50,6 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'vue-chartjs';
-import { computed, onMounted } from 'vue';
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -59,23 +61,23 @@ ChartJS.register(
 );
 
 const retailersAvgResaleValueStore = useRetailersAvgResaleValueStore();
+const resellersAvgResaleValueStore = useResellersAvgResaleValueStore();
+const storeMe = useMeStore();
 
-// eslint-disable-next-line no-unused-vars
-const props = defineProps({
-  label: {
-    type: String,
-    default: 'label',
-  },
+const avgResaleValuesStore = ref(null);
+
+const isRetailer = computed(() => {
+  return storeMe.isRetailer;
 });
 
 const data = computed(() => {
   return {
-    title: 'test',
+    title: '',
     labels: labels.value,
     fill: true,
     datasets: [
       {
-        label: props.label,
+        label: 'Avg. Resale Value',
         backgroundColor: color.value,
         data: values.value,
         tension: 0.7,
@@ -93,14 +95,21 @@ const average = computed(() => {
 });
 
 const labels = computed(() => {
-  return retailersAvgResaleValueStore.graph.map((item) => {
+  if (!avgResaleValuesStore.value) {
+    return [];
+  }
+
+  return avgResaleValuesStore.value.graph.map((item) => {
     const date = new Date(Date.parse(item.since));
     return date.toLocaleString('default', { month: 'long' });
   });
 });
 
 const values = computed(() => {
-  return retailersAvgResaleValueStore.graph.map((item) => {
+  if (!avgResaleValuesStore.value) {
+    return [];
+  }
+  return avgResaleValuesStore.value.graph.map((item) => {
     return item.value;
   });
 });
@@ -125,10 +134,20 @@ const color = computed(() => {
 });
 
 const isLoading = computed(() => {
-  return retailersAvgResaleValueStore.is.fetching;
+  return avgResaleValuesStore.value && avgResaleValuesStore.value.isFetching;
+});
+
+
+watch (isRetailer, (current) => {
+  avgResaleValuesStore.value = current
+    ? retailersAvgResaleValueStore
+    : resellersAvgResaleValueStore;
+});
+
+watch(avgResaleValuesStore, (current) => {
+  current.fetch();
 });
 
 onMounted(() => {
-  retailersAvgResaleValueStore.fetch();
 });
 </script>
