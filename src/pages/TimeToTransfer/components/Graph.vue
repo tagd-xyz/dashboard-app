@@ -14,8 +14,8 @@
 
 <script setup>
 import Lines from 'components/Charts/Lines.vue';
-import { useRetailersTimeToTransferStore } from 'stores/retailersTimeToTransfer';
-import { useResellersTimeToTransferStore } from 'stores/resellersTimeToTransfer';
+import { useRetailersTimeToTransferStore } from 'stores/retailers/timeToTransfer';
+import { useResellersTimeToTransferStore } from 'stores/resellers/timeToTransfer';
 import { useMeStore } from 'stores/me';
 import { computed, onMounted, watch } from 'vue';
 

@@ -1,48 +1,65 @@
 <template>
-  <q-table
-    dense
-    flat
-    :rows="rows"
-    :columns="columns"
-    row-key="name"
-    :hide-bottom="true"
-  >
-    <template v-slot:body="props">
-      <q-tr :props="props">
-        <q-td key="image" :props="props">
-          <q-img :src="props.row.image" />
-        </q-td>
-        <q-td key="name" :props="props">
-          <span class="text-bold">
-            {{ props.row.name }}
-          </span>
-        </q-td>
-        <q-td key="total" :props="props">
-          <span class="text-bold">
-            {{ props.row.total }}
-            <q-icon
-              size="xs"
-              name="north_east"
-              color="positive"
-              v-if="props.row.delta > 0"
-            />
-            <q-icon
-              size="xs"
-              name="south_east"
-              color="negative"
-              v-if="props.row.delta < 0"
-            />
-          </span>
-          <br />
-          <small>Items Re-Sold</small>
-        </q-td>
-      </q-tr>
-    </template>
-  </q-table>
+  <div>
+    <div class="text-h6">Popular re-sale platforms</div>
+    <q-table
+      dense
+      flat
+      :rows="rows"
+      :columns="columns"
+      row-key="name"
+      :hide-bottom="true"
+      :loading="isFetching"
+    >
+      <template v-slot:body="props">
+        <q-tr :props="props">
+          <q-td key="image" :props="props">
+            <q-img :src="props.row.image" />
+          </q-td>
+          <q-td key="name" :props="props">
+            <span class="text-bold">
+              {{ props.row.name }}
+            </span>
+          </q-td>
+          <q-td key="total" :props="props">
+            <span class="text-bold">
+              {{ props.row.total }}
+              <q-icon
+                size="xs"
+                name="north_east"
+                color="positive"
+                v-if="props.row.delta > 0"
+              />
+              <q-icon
+                size="xs"
+                name="south_east"
+                color="negative"
+                v-if="props.row.delta < 0"
+              />
+            </span>
+            <br />
+            <small>{{ props.row.total > 1 ? 'Items' : 'Item' }} re-sold</small>
+          </q-td>
+        </q-tr>
+      </template>
+    </q-table>
+  </div>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
+import { useRetailersPopularResellersStore } from 'stores/retailers/popularResellers';
+import { useResellersPopularResellersStore } from 'stores/resellers/popularResellers';
+import { useMeStore } from 'stores/me';
+
+const retailersPopularResellersStore = useRetailersPopularResellersStore();
+const resellersPopularResellersStore = useResellersPopularResellersStore();
+const storeMe = useMeStore();
+
+const popularResellersStore = ref(null);
+
+const isRetailer = computed(() => {
+  return storeMe.isRetailer;
+});
 
 const columns = ref([
   {
@@ -66,15 +83,34 @@ const columns = ref([
   },
 ]);
 
-const rows = ref([
-  {
-    name: 'ebay',
-    total: '100',
-    delta: 1,
-    image:
-      'https://d3sfiwv4lracxf.cloudfront.net/eyJidWNrZXQiOiJ0b3RhbGx5LXRhZ2QtbWVkaWEtZGV2Iiwia2V5IjoicmVzZWxsZXJBdmF0YXJcLzk4ZjhiYTRlLTA4OGEtNGJlZi1hYjg0LTRmOTY1MzA3OTU1N1wvZWJheV9sZy5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjY0MCwiaGVpZ2h0Ijo2NDAsImZpdCI6Imluc2lkZSJ9fX0=',
-  },
-]);
+const rows = computed(() => {
+  if (!popularResellersStore.value) {
+    return [];
+  }
+
+  return popularResellersStore.value.details.map((item) => {
+    return {
+      name: item.name,
+      total: item.total,
+      delta: 0,
+      image: item.file,
+    };
+  });
+});
+
+const isFetching = computed(() => {
+  return popularResellersStore.value && popularResellersStore.value.isFetching;
+});
+
+watch(isRetailer, (current) => {
+  popularResellersStore.value = current
+    ? retailersPopularResellersStore
+    : resellersPopularResellersStore;
+});
+
+watch(popularResellersStore, (current) => {
+  current.fetch();
+});
 
 onMounted(() => {});
 </script>

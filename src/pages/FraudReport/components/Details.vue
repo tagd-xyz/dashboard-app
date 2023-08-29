@@ -19,6 +19,9 @@
               )
             }}
           </q-td>
+          <q-td key="status" :props="props">
+            {{ props.row.status }}
+          </q-td>
           <q-td key="hasCustomerRegistered" :props="props">
             {{ props.row.hasCustomerRegistered }}
           </q-td>
@@ -42,19 +45,8 @@
             </small>
           </q-td>
           <q-td key="model" :props="props"> </q-td>
-          <q-td key="size" :props="props">
-            {{ props.row.size }}
-          </q-td>
-          <q-td key="transfersCount" :props="props">
-            {{ props.row.transfersCount }}
-          </q-td>
-          <q-td key="ttt" :props="props">
-            {{
-              props.row.ttt > 1
-                ? `${props.row.ttt} days`
-                : `${props.row.ttt} day`
-            }}
-          </q-td>
+          <q-td key="size" :props="props">{{ props.row.size }}</q-td>
+          <q-td key="trust" :props="props">{{props.row.trust?.score}}</q-td>
         </q-tr>
       </template>
     </q-table>
@@ -62,14 +54,14 @@
 </template>
 
 <script setup>
-import { useRetailersTimeToTransferStore } from 'stores/retailers/timeToTransfer';
-import { useResellersTimeToTransferStore } from 'stores/resellers/timeToTransfer';
+import { useRetailersFraudReportStore } from 'stores/retailers/fraudReport';
+import { useResellersFraudReportStore } from 'stores/resellers/fraudReport';
 import { useMeStore } from 'stores/me';
 import { computed, onMounted, ref, watch } from 'vue';
 import { date } from 'quasar';
 
-const retailersTimeToTransferStore = useRetailersTimeToTransferStore();
-const resellersTimeToTransferStore = useResellersTimeToTransferStore();
+const retailersFraudReportStore = useRetailersFraudReportStore();
+const resellersFraudReportStore = useResellersFraudReportStore();
 const storeMe = useMeStore();
 
 // eslint-disable-next-line no-unused-vars
@@ -83,13 +75,6 @@ const props = defineProps({
     type: String,
     required: true,
     default: '',
-  },
-  transfersCount: {
-    type: String,
-    required: false,
-    default: () => {
-      return null;
-    },
   },
   brands: {
     type: Array,
@@ -108,10 +93,10 @@ const pagination = ref({
   // rowsNumber: props.rows.length,
 });
 
-const timeToTransferStore = computed(() => {
+const fraudReportStore = computed(() => {
   return isRetailer.value
-    ? retailersTimeToTransferStore
-    : resellersTimeToTransferStore;
+    ? retailersFraudReportStore
+    : resellersFraudReportStore;
 });
 
 const isRetailer = computed(() => {
@@ -119,13 +104,14 @@ const isRetailer = computed(() => {
 });
 
 const isLoading = computed(() => {
-  return timeToTransferStore.value.is.fetchingDetails;
+  return fraudReportStore.value.is.fetchingDetails;
 });
 
 const rows = computed(() => {
-  return timeToTransferStore.value.details.map((row) => {
+  return fraudReportStore.value.details.map((row) => {
     return {
       soldOn: row.createdAt,
+      status: row.status,
       retailer: row.item.retailer,
       hasCustomerRegistered:
         null == row.hasCustomerRegistered
@@ -135,16 +121,10 @@ const rows = computed(() => {
           : 'Unregistered',
       name: row.item.name,
       type: row.item.type.name,
-      transfersCount: row.stats?.count?.transferred_consumer ?? 0,
       brand: row.item.properties?.brand ?? '',
       model: row.item.properties?.model ?? '',
       size: row.item.properties?.size ?? '',
-      ttt: Math.floor(
-        row.stats?.ttt['n' + transfersCountFilter.value] / 1440 ?? 0
-      ),
-      // row.stats?.ttt?.find((ttt) => {
-      //   return ttt.order == transfersCountFilter.value;
-      // }) ?? 0,
+      trust: row.trust,
     };
   });
 });
@@ -157,6 +137,14 @@ const columns = computed(() => {
       required: true,
       align: 'left',
       field: 'soldOn',
+      sortable: true,
+    },
+    {
+      name: 'status',
+      label: 'Status',
+      required: true,
+      align: 'left',
+      field: 'status',
       sortable: true,
     },
     {
@@ -208,27 +196,11 @@ const columns = computed(() => {
       sortable: true,
     },
     {
-      name: 'transfersCount',
-      label: 'Transfers',
+      name: 'trust',
+      label: 'Trust score',
       required: true,
       align: 'center',
-      field: 'transfersCount',
-      sortable: true,
-    },
-    {
-      name: 'ttt',
-      label: 'Time to transfer',
-      required: true,
-      align: 'center',
-      field: 'ttt',
-      sortable: true,
-    },
-    {
-      name: 'fraudReport',
-      label: 'Fraud report',
-      required: true,
-      align: 'center',
-      field: 'fraudReport',
+      field: 'trust',
       sortable: true,
     },
   ];
@@ -241,33 +213,6 @@ const columns = computed(() => {
     return list.filter((column) => {
       return column.name != 'hasCustomerRegistered';
     });
-  }
-});
-
-const transfersCountFilter = computed(() => {
-  switch (props.transfersCount) {
-    case 'First':
-      return 1;
-    case 'Second':
-      return 2;
-    case 'Third':
-      return 3;
-    case 'Fourth':
-      return 4;
-    case 'Fifth':
-      return 5;
-    case 'Sixth':
-      return 6;
-    case 'Seventh':
-      return 7;
-    case 'Eighth':
-      return 8;
-    case 'Ninth':
-      return 9;
-    case 'Tenth':
-      return 10;
-    default:
-      return null;
   }
 });
 
@@ -284,7 +229,6 @@ const filter = computed(() => {
     dateFrom: props.dateFrom,
     dateTo: props.dateTo,
     filter: {
-      transfersCount: transfersCountFilter.value,
       brands: brandsFilter.value,
     },
   };
@@ -296,7 +240,7 @@ watch(filter, () => {
 
 function fetch() {
   if (filter.value.dateFrom != '' && filter.value.dateTo != '') {
-    timeToTransferStore.value.fetchList(1, 9999, filter.value);
+    fraudReportStore.value.fetchList(1, 9999, filter.value);
   }
 }
 
