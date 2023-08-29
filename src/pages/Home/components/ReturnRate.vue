@@ -34,7 +34,7 @@
 </template>
 
 <script setup>
-import { useRetailersReturnRateStore } from 'stores/retailersReturnRate';
+import { useRetailersReturnRateStore } from 'stores/retailers/returnRate';
 import {
   Chart as ChartJS,
   CategoryScale,
