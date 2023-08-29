@@ -19,6 +19,9 @@
               )
             }}
           </q-td>
+          <q-td key="status" :props="props">
+            {{ props.row.status }}
+          </q-td>
           <q-td key="hasCustomerRegistered" :props="props">
             {{ props.row.hasCustomerRegistered }}
           </q-td>
@@ -42,14 +45,8 @@
             </small>
           </q-td>
           <q-td key="model" :props="props"> </q-td>
-          <q-td key="size" :props="props">
-            {{ props.row.size }}
-          </q-td>
-          <q-td key="trust" :props="props">
-            {{
-              props.row.trust?.score
-            }}
-          </q-td>
+          <q-td key="size" :props="props">{{ props.row.size }}</q-td>
+          <q-td key="trust" :props="props">{{props.row.trust?.score}}</q-td>
         </q-tr>
       </template>
     </q-table>
@@ -114,6 +111,7 @@ const rows = computed(() => {
   return fraudReportStore.value.details.map((row) => {
     return {
       soldOn: row.createdAt,
+      status: row.status,
       retailer: row.item.retailer,
       hasCustomerRegistered:
         null == row.hasCustomerRegistered
@@ -139,6 +137,14 @@ const columns = computed(() => {
       required: true,
       align: 'left',
       field: 'soldOn',
+      sortable: true,
+    },
+    {
+      name: 'status',
+      label: 'Status',
+      required: true,
+      align: 'left',
+      field: 'status',
       sortable: true,
     },
     {

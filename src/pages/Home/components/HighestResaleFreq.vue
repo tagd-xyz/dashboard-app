@@ -1,50 +1,64 @@
 <template>
-  <q-table
-    dense
-    flat
-    :rows="rows"
-    :columns="columns"
-    row-key="name"
-    :hide-bottom="true"
-  >
-    <template v-slot:body="props">
-      <q-tr :props="props">
-        <q-td key="image" :props="props">
-          <q-img :src="props.row.image" />
-        </q-td>
-        <q-td key="name" :props="props">
-          <span class="text-bold">
-            {{ props.row.name }}
-          </span>
-          <br />
-          <small class="text-grey-7">{{ props.row.type }}</small>
-        </q-td>
-        <q-td key="total" :props="props">
-          <span class="text-bold">
-            {{ props.row.total }}
-            <q-icon
-              size="xs"
-              name="north_east"
-              color="positive"
-              v-if="props.row.delta > 0"
-            />
-            <q-icon
-              size="xs"
-              name="south_east"
-              color="negative"
-              v-if="props.row.delta < 0"
-            />
-          </span>
-          <br />
-          <small>Resale Frequency</small>
-        </q-td>
-      </q-tr>
-    </template>
-  </q-table>
+  <div>
+    <div class="text-h6">Highest resale frequency (WIP)</div>
+    <q-table
+      dense
+      flat
+      :rows="rows"
+      :columns="columns"
+      row-key="name"
+      :hide-bottom="true"
+      :loading="isFetching"
+    >
+      <template v-slot:body="props">
+        <q-tr :props="props">
+          <q-td key="name" :props="props">
+            <span class="text-bold">
+              {{ props.row.name }}
+            </span>
+            <br />
+            <small class="text-grey-7">{{ props.row.type }}</small>
+          </q-td>
+          <q-td key="total" :props="props">
+            <span class="text-bold">
+              {{ props.row.total }}
+              <q-icon
+                size="xs"
+                name="north_east"
+                color="positive"
+                v-if="props.row.delta > 0"
+              />
+              <q-icon
+                size="xs"
+                name="south_east"
+                color="negative"
+                v-if="props.row.delta < 0"
+              />
+            </span>
+            <br />
+            <small>Resale Frequency</small>
+          </q-td>
+        </q-tr>
+      </template>
+    </q-table>
+  </div>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
+import { useRetailersResaleFrequencyStore } from 'stores/retailersResaleFrequency';
+import { useResellersResaleFrequencyStore } from 'stores/resellersResaleFrequency';
+import { useMeStore } from 'stores/me';
+
+const retailersResaleFrequencyStore = useRetailersResaleFrequencyStore();
+const resellersResaleFrequencyStore = useResellersResaleFrequencyStore();
+const storeMe = useMeStore();
+
+const isRetailer = computed(() => {
+  return storeMe.isRetailer;
+});
+
+const resaleFrequencyStore = ref(null);
 
 const columns = ref([
   {
@@ -68,24 +82,34 @@ const columns = ref([
   },
 ]);
 
-const rows = ref([
-  {
-    name: 'Item 1',
-    type: 'Fashion',
-    total: '5 Mo',
-    delta: 1,
-    image:
-      'https://d3sfiwv4lracxf.cloudfront.net/eyJidWNrZXQiOiJ0b3RhbGx5LXRhZ2QtbWVkaWEtZGV2Iiwia2V5Ijoic3RvY2tJbWFnZXNcLzk4ZjhiNGIyLWZlYTgtNDliZC1hNWEzLTFmYjliMmYzMTcwNVwvemFyYV90b3RlX2JhZ19icm93bl8xLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NjQwLCJoZWlnaHQiOjY0MCwiZml0IjoiY292ZXIifX19',
-  },
-  {
-    name: 'Item 2',
-    type: 'Shoes',
-    total: '6 Mo',
-    delta: -1,
-    image:
-      'https://d3sfiwv4lracxf.cloudfront.net/eyJidWNrZXQiOiJ0b3RhbGx5LXRhZ2QtbWVkaWEtZGV2Iiwia2V5Ijoic3RvY2tJbWFnZXNcLzk4ZjhiNGIzLTAwZmUtNDZiNC1hYmVlLWRhZmIzNWQ4MDBlYVwvemFyYV90b3RlX2JhZ18yLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NjQwLCJoZWlnaHQiOjY0MCwiZml0IjoiY292ZXIifX19',
-  },
-]);
+const rows = computed(() => {
+  if (!resaleFrequencyStore.value) {
+    return [];
+  }
+
+  return resaleFrequencyStore.value.details.map((item) => {
+    return {
+      name: item.name,
+      type: item.type,
+      total: item.total,
+      delta: 0,
+    };
+  });
+});
+
+const isFetching = computed(() => {
+  return resaleFrequencyStore.value && resaleFrequencyStore.value.isFetching;
+});
+
+watch (isRetailer, (current) => {
+  resaleFrequencyStore.value = current
+    ? retailersResaleFrequencyStore
+    : resellersResaleFrequencyStore;
+});
+
+watch(resaleFrequencyStore, (current) => {
+  current.fetch();
+});
 
 onMounted(() => {});
 </script>
