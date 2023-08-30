@@ -13,7 +13,14 @@ export const useCurrencyStore = defineStore('retailersCurrency', {
       },
     };
   },
-  getters: {},
+  getters: {
+    isFetching() {
+      return this.is.fetchingDetails || this.is.fetchingGraph;
+    },
+    isEmpty() {
+      return this.details.length === 0 && this.graph.length === 0;
+    },
+  },
   actions: {
     fetch(filter = {}) {
       return new Promise((resolve, reject) => {

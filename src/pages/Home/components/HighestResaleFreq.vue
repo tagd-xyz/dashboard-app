@@ -1,46 +1,51 @@
 <template>
   <div>
-    <div class="text-h6">Popular re-sale items</div>
-    <q-table
-      dense
-      flat
-      :rows="rows"
-      :columns="columns"
-      row-key="name"
-      :hide-bottom="true"
-      :loading="isFetching"
-    >
-      <template v-slot:body="props">
-        <q-tr :props="props">
-          <q-td key="name" :props="props">
-            <span class="text-bold">
-              {{ props.row.name }}
-            </span>
-            <br />
-            <small class="text-grey-7">{{ props.row.type }}</small>
-          </q-td>
-          <q-td key="total" :props="props">
-            <span class="text-bold">
-              {{ props.row.total }}
-              <q-icon
-                size="xs"
-                name="north_east"
-                color="positive"
-                v-if="props.row.delta > 0"
-              />
-              <q-icon
-                size="xs"
-                name="south_east"
-                color="negative"
-                v-if="props.row.delta < 0"
-              />
-            </span>
-            <br />
-            <small>Resale Frequency</small>
-          </q-td>
-        </q-tr>
-      </template>
-    </q-table>
+    <q-card class="q-py-sm">
+      <q-table
+        dense
+        :rows="rows"
+        :columns="columns"
+        row-key="name"
+        :hide-header="true"
+        :hide-bottom="true"
+        :loading="isLoading"
+      >
+        <template #top-left>
+          <div class="text-h6">Popular Re-Sale Items</div>
+          <div class="text-caption text-accent">Top 5 items in the last 6 months</div>
+        </template>
+        <template v-slot:body="props">
+          <q-tr :props="props">
+            <q-td key="name" :props="props">
+              <span class="text-bold">
+                {{ props.row.name }}
+              </span>
+              <br />
+              <small class="text-grey-7">{{ props.row.type }}</small>
+            </q-td>
+            <q-td key="total" :props="props">
+              <span class="text-bold">
+                {{ props.row.total }}
+                <q-icon
+                  size="xs"
+                  name="north_east"
+                  color="positive"
+                  v-if="props.row.delta > 0"
+                />
+                <q-icon
+                  size="xs"
+                  name="south_east"
+                  color="negative"
+                  v-if="props.row.delta < 0"
+                />
+              </span>
+              <br />
+              <small>Resale Frequency</small>
+            </q-td>
+          </q-tr>
+        </template>
+      </q-table>
+    </q-card>
   </div>
 </template>
 
@@ -52,13 +57,7 @@ import { useMeStore } from 'stores/me';
 
 const retailersResaleFrequencyStore = useRetailersResaleFrequencyStore();
 const resellersResaleFrequencyStore = useResellersResaleFrequencyStore();
-const storeMe = useMeStore();
-
-const isRetailer = computed(() => {
-  return storeMe.isRetailer;
-});
-
-const resaleFrequencyStore = ref(null);
+const meStore = useMeStore();
 
 const columns = ref([
   {
@@ -97,18 +96,32 @@ const rows = computed(() => {
   });
 });
 
-const isFetching = computed(() => {
-  return resaleFrequencyStore.value && resaleFrequencyStore.value.isFetching;
+const isRetailer = computed(() => {
+  return meStore.isRetailer;
 });
 
-watch(isRetailer, (current) => {
-  resaleFrequencyStore.value = current
-    ? retailersResaleFrequencyStore
-    : resellersResaleFrequencyStore;
+const isReseller = computed(() => {
+  return meStore.isReseller;
+});
+
+const resaleFrequencyStore = computed(() => {
+  if (isRetailer.value) {
+    return retailersResaleFrequencyStore;
+  } else if (isReseller.value) {
+    return resellersResaleFrequencyStore;
+  } else {
+    return null;
+  }
 });
 
 watch(resaleFrequencyStore, (current) => {
-  current.fetch();
+  if (current && 0 == current.details.length && !current.isFetching) {
+    current.fetch();
+  }
+});
+
+const isLoading = computed(() => {
+  return resaleFrequencyStore.value && resaleFrequencyStore.value.isFetching;
 });
 
 onMounted(() => {});

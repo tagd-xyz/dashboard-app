@@ -1,11 +1,21 @@
 <template>
   <div>
-    <q-card class="my-card">
+    <q-card class="q-py-sm">
       <q-card-section v-if="isLoading">
         <q-spinner color="primary" />
         loading, please wait ...
       </q-card-section>
       <q-card-section v-if="!isLoading">
+        <div class="text-h6">
+          <span
+            :class="{
+              'text-negative': hasDecreased,
+              'text-positive': hasIncreased,
+            }"
+            >Return Rate</span
+          >
+        </div>
+        <div class="text-caption text-accent">Return rate in the previous 6 months</div>
         <Line :data="data" :options="options" />
       </q-card-section>
       <q-card-section v-if="!isLoading" horizontal vertical-middle>
@@ -22,11 +32,19 @@
             color="negative"
             v-if="hasDecreased"
           />
+          <q-icon
+            size="lg"
+            name="trending_flat"
+            v-if="!hasDecreased && !hasIncreased"
+          />
         </div>
         <div class="q-ma-sm text-h5 text-bold">{{ competitorsRate }}%</div>
-        <div class="q-ma-sm text-subtitle2">
-          Your competitors have a {{ competitorsRate }}%
-          {{ hasDecreased ? 'less' : 'more' }} return rate.
+        <div class="q-ma-sm text-subtitle2" style="min-height: 3rem;">
+          <span v-if="hasIncreased || hasDecreased" >
+            Your competitors have a {{ Math.abs(competitorsRate) }}%
+            {{ hasDecreased ? 'less' : 'more' }} return rate.
+          </span>
+          <span v-else> Your competitors have the same return rate. </span>
         </div>
       </q-card-section>
     </q-card>
@@ -44,6 +62,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  Filler,
 } from 'chart.js';
 import { Line } from 'vue-chartjs';
 import { computed, onMounted } from 'vue';
@@ -54,28 +73,29 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler,
 );
 
 const retailersReturnRateStore = useRetailersReturnRateStore();
 
 const data = computed(() => {
   return {
-    title: 'test',
     labels: labels.value,
-    fill: true,
     datasets: [
       {
+        backgroundColor: [color.value],
         label: 'Return Rate',
-        backgroundColor: color.value,
         data: values.value,
-        tension: 0.7,
+        tension: 0.5,
         showLine: true,
+        borderWidth: 6,
+        fill: 'origin',
       },
     ],
   };
 });
-
+1
 const labels = computed(() => {
   return retailersReturnRateStore.graph.map((item) => {
     const date = new Date(Date.parse(item.since));
@@ -98,11 +118,16 @@ const mineTotal = computed(() => {
 });
 
 const mineRate = computed(() => {
-  return mineTotal.value ? Math.round(mineReturned.value / mineTotal.value * 100, 2) : 0;
+  return mineTotal.value
+    ? Math.round((mineReturned.value / mineTotal.value) * 100, 2)
+    : 0;
 });
 
 const othersReturned = computed(() => {
-  return retailersReturnRateStore.graph.reduce((x, y) => x + y.othersReturned, 0);
+  return retailersReturnRateStore.graph.reduce(
+    (x, y) => x + y.othersReturned,
+    0
+  );
 });
 
 const othersTotal = computed(() => {
@@ -110,7 +135,9 @@ const othersTotal = computed(() => {
 });
 
 const othersRate = computed(() => {
-  return othersTotal.value ? Math.round(othersReturned.value / othersTotal.value * 100, 2) : 0;
+  return othersTotal.value
+    ? Math.round((othersReturned.value / othersTotal.value) * 100, 2)
+    : 0;
 });
 
 const competitorsRate = computed(() => {
@@ -133,7 +160,13 @@ const hasDecreased = computed(() => {
 });
 
 const color = computed(() => {
-  return hasIncreased.value ? '#60d394' : '#ee6055';
+  if (hasIncreased.value) {
+    return 'rgba(96, 211, 148, 0.7)';
+  } else if (hasDecreased.value) {
+    return 'rgba(238, 96, 85, 0.7)';
+  } else {
+    return 'grey';
+  }
 });
 
 const isLoading = computed(() => {
