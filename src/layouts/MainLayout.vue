@@ -1,10 +1,11 @@
 <template>
   <q-layout view="hHh lpR fFf" class="layout">
     <q-header class="bg-primary text-white" height-hint="98">
-      <q-toolbar>
+      <q-toolbar class="q-my-sm">
         <q-toolbar-title>
           <logo-component variant="dark" />
-          Tagd Dashboard
+          DASHBOARD
+          <version />
         </q-toolbar-title>
         <q-btn-dropdown flat icon="person" :label="userName">
           <q-list bordered separator>
@@ -31,14 +32,26 @@
         </q-btn-dropdown>
       </q-toolbar>
 
-      <q-tabs align="left" v-if="isRetailer">
+      <q-tabs
+        dense
+        active-bg-color="secondary"
+        active-color="white"
+        align="left"
+        v-if="isRetailer"
+      >
         <q-route-tab to="/home" label="Home" />
         <q-route-tab to="/tags-issued" label="Tags Issued" />
         <q-route-tab to="/time-to-transfer" label="Time to transfer" />
         <q-route-tab to="/fraud-report" label="Fraud report" />
       </q-tabs>
 
-      <q-tabs align="left" v-if="isReseller">
+      <q-tabs
+        dense
+        active-bg-color="secondary"
+        active-color="white"
+        align="left"
+        v-if="isReseller"
+      >
         <q-route-tab to="/home" label="Home" />
         <q-route-tab to="/time-to-transfer" label="Time to transfer" />
         <q-route-tab to="/fraud-report" label="Fraud report" />
