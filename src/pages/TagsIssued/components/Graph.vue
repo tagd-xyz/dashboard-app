@@ -6,7 +6,7 @@
     color="rgba(112, 121, 140, 0.7)"
     label="Total Items"
     v-if="!isLoading"
-    style="height: 23rem;"
+    style="height: 23rem"
   />
 </template>
 

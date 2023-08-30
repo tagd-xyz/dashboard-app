@@ -1,11 +1,9 @@
 <template>
-  <q-layout view="hHh lpR fFf">
-    <q-page-container class="q-ma-xl">
+  <q-layout view="hHh lpR fFf" class="layout">
+    <q-page-container>
       <router-view />
     </q-page-container>
   </q-layout>
 </template>
 
-<script setup>
-//empty
-</script>
+<script setup></script>
