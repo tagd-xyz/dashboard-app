@@ -18,7 +18,7 @@
         <div class="text-caption text-accent">
           Average resale value in the previous 6 months
         </div>
-        <Line :data="data" :options="options" />
+        <Line :data="data" :options="options" style="max-height: 20rem;"/>
       </q-card-section>
       <q-card-section v-if="!isLoading" horizontal vertical-middle>
         <div class="q-ma-sm">
@@ -159,7 +159,7 @@ const values = computed(() => {
 const options = computed(() => {
   return {
     responsive: true,
-    maintainAspectRatio: true,
+    maintainAspectRatio: false,
   };
 });
 
