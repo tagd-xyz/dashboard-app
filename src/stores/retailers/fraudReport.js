@@ -15,7 +15,14 @@ export const useRetailersFraudReportStore = defineStore(
         },
       };
     },
-    getters: {},
+    getters: {
+      isFetching() {
+        return this.is.fetchingDetails || this.is.fetchingGraph;
+      },
+      isEmpty() {
+        return this.details.length === 0 && this.graph.length === 0;
+      },
+    },
     actions: {
       fetchList(page = 1, perPage = 10, filter = {}) {
         return new Promise((resolve, reject) => {
