@@ -13,7 +13,14 @@ export const useRetailersPopularResellersStore = defineStore(
         },
       };
     },
-    getters: {},
+    getters: {
+      isFetching() {
+        return this.is.fetching;
+      },
+      isEmpty() {
+        return this.details.length === 0;
+      },
+    },
     actions: {
       fetch() {
         return new Promise((resolve, reject) => {

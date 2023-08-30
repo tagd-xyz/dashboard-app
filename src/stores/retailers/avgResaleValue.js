@@ -13,7 +13,14 @@ export const useRetailersAvgResaleValueStore = defineStore(
         },
       };
     },
-    getters: {},
+    getters: {
+      isFetching() {
+        return this.is.fetching;
+      },
+      isEmpty() {
+        return this.graph.length === 0;
+      },
+    },
     actions: {
       fetch(monthsAgo = 6) {
         return new Promise((resolve, reject) => {

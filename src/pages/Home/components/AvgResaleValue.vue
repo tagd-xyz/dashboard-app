@@ -1,11 +1,23 @@
 <template>
   <div>
-    <q-card class="my-card">
+    <q-card class="q-py-sm">
       <q-card-section v-if="isLoading">
         <q-spinner color="primary" />
         loading, please wait ...
       </q-card-section>
       <q-card-section v-if="!isLoading">
+        <div class="text-h6">
+          <span
+            :class="{
+              'text-negative': hasDecreased,
+              'text-positive': hasIncreased,
+            }"
+            >Average Resale Value</span
+          >
+        </div>
+        <div class="text-caption text-accent">
+          Average resale value in the previous 6 months
+        </div>
         <Line :data="data" :options="options" />
       </q-card-section>
       <q-card-section v-if="!isLoading" horizontal vertical-middle>
@@ -22,12 +34,22 @@
             color="negative"
             v-if="hasDecreased"
           />
+          <q-icon
+            size="lg"
+            name="trending_flat"
+            v-if="!hasDecreased && !hasIncreased"
+          />
         </div>
         <div class="q-ma-sm text-h5 text-bold">{{ average }}%</div>
-        <div class="q-ma-sm text-subtitle2">
-          The average resale value of your products is
-          {{ hasDecreased ? 'decreased' : 'increased' }}
-          by {{ average }}%
+        <div class="q-ma-sm text-subtitle2" style="min-height: 3rem">
+          <span v-if="hasIncreased || hasDecreased">
+            The average resale value of your products is
+            {{ hasDecreased ? 'decreased' : 'increased' }}
+            by {{ Math.abs(average) }}%
+          </span>
+          <span>
+            The average resale value of your products has not changed
+          </span>
         </div>
       </q-card-section>
     </q-card>
@@ -35,7 +57,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 import { useRetailersAvgResaleValueStore } from 'stores/retailers/avgResaleValue';
 import { useResellersAvgResaleValueStore } from 'stores/resellers/avgResaleValue';
 import { useMeStore } from 'stores/me';
@@ -48,6 +70,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  Filler,
 } from 'chart.js';
 import { Line } from 'vue-chartjs';
 ChartJS.register(
@@ -57,31 +80,50 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler
 );
 
 const retailersAvgResaleValueStore = useRetailersAvgResaleValueStore();
 const resellersAvgResaleValueStore = useResellersAvgResaleValueStore();
-const storeMe = useMeStore();
-
-const avgResaleValuesStore = ref(null);
+const meStore = useMeStore();
 
 const isRetailer = computed(() => {
-  return storeMe.isRetailer;
+  return meStore.isRetailer;
+});
+
+const isReseller = computed(() => {
+  return meStore.isReseller;
+});
+
+const avgResaleValuesStore = computed(() => {
+  if (isRetailer.value) {
+    return retailersAvgResaleValueStore;
+  } else if (isReseller.value) {
+    return resellersAvgResaleValueStore;
+  } else {
+    return null;
+  }
+});
+
+watch(avgResaleValuesStore, (current) => {
+  if (current && current.isEmpty && !current.isFetching) {
+    current.fetch();
+  }
 });
 
 const data = computed(() => {
   return {
-    title: '',
     labels: labels.value,
-    fill: true,
     datasets: [
       {
         label: 'Avg. Resale Value',
         backgroundColor: color.value,
         data: values.value,
-        tension: 0.7,
+        tension: 0.5,
         showLine: true,
+        borderWidth: 6,
+        fill: 'origin',
       },
     ],
   };
@@ -130,21 +172,17 @@ const hasDecreased = computed(() => {
 });
 
 const color = computed(() => {
-  return hasIncreased.value ? '#60d394' : '#ee6055';
+  if (hasIncreased.value) {
+    return 'rgba(96, 211, 148, 0.7)';
+  } else if (hasDecreased.value) {
+    return 'rgba(238, 96, 85, 0.7)';
+  } else {
+    return 'grey';
+  }
 });
 
 const isLoading = computed(() => {
   return avgResaleValuesStore.value && avgResaleValuesStore.value.isFetching;
-});
-
-watch(isRetailer, (current) => {
-  avgResaleValuesStore.value = current
-    ? retailersAvgResaleValueStore
-    : resellersAvgResaleValueStore;
-});
-
-watch(avgResaleValuesStore, (current) => {
-  current.fetch();
 });
 
 onMounted(() => {});

@@ -1,6 +1,6 @@
 <template>
-  <q-layout view="hHh lpR fFf">
-    <q-header elevated class="bg-primary text-white" height-hint="98">
+  <q-layout view="hHh lpR fFf" class="layout">
+    <q-header class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-toolbar-title>
           <logo-component variant="dark" />
@@ -48,6 +48,16 @@
     <q-page-container>
       <router-view />
     </q-page-container>
+
+    <q-footer style="background-color: transparent;">
+      <div class="q-ma-lg text-accent text-right" >
+        &copy; 2023 Tagd
+        &nbsp;|&nbsp;
+        <a href="support@tagd.co.uk" class="text-accent">support@tagd.co.uk</a>
+        &nbsp;|&nbsp;
+        <q-badge color="secondary">dashboard beta v.0.1</q-badge>
+      </div>
+    </q-footer>
 
     <q-dialog v-model="showDialog" persistent>
       <q-card>

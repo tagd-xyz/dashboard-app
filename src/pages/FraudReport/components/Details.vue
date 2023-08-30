@@ -46,7 +46,7 @@
           </q-td>
           <q-td key="model" :props="props"> </q-td>
           <q-td key="size" :props="props">{{ props.row.size }}</q-td>
-          <q-td key="trust" :props="props">{{props.row.trust?.score}}</q-td>
+          <q-td key="trust" :props="props">{{ props.row.trust?.score }}</q-td>
         </q-tr>
       </template>
     </q-table>
