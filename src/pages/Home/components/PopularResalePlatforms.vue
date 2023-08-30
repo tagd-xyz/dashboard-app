@@ -12,14 +12,16 @@
       >
         <template #top-left>
           <div class="text-h6">Popular Re-Sale Platforms</div>
-          <div class="text-caption text-accent">Top 5 resellers in the last 6 months</div>
+          <div class="text-caption text-accent">
+            Top 5 resellers in the last 6 months
+          </div>
         </template>
 
         <template v-slot:body="props">
           <q-tr :props="props">
             <q-td key="image" :props="props" :auto-width="true">
               <q-img v-if="props.row.file" :src="props.row.file" />
-              <q-icon name="storefront" size="xs"/>
+              <q-icon name="storefront" size="xs" />
             </q-td>
             <q-td key="name" :props="props">
               <span class="text-bold">
