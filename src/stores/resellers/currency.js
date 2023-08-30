@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { api } from 'boot/axios';
 
-export const useRetailersCurrencyStore = defineStore('retailersCurrency', {
+export const useResellersCurrencyStore = defineStore('resellersCurrency', {
   persist: true,
   state: () => {
     return {
@@ -26,7 +26,7 @@ export const useRetailersCurrencyStore = defineStore('retailersCurrency', {
       return new Promise((resolve, reject) => {
         this.is.fetchingDetails = true;
         api
-          .get('retailers/reporting/currency', {
+          .get('resellers/reporting/currency', {
             params: {
               ...filter,
             },

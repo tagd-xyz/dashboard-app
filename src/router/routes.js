@@ -31,6 +31,11 @@ const routes = [
         path: 'fraud-report',
         component: () => import('src/pages/FraudReport/Index.vue'),
       },
+      {
+        name: 'summaryCurrency',
+        path: 'summary-currency',
+        component: () => import('src/pages/SummaryCurrency/Index.vue'),
+      },
     ],
   },
   {
