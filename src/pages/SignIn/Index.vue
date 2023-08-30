@@ -1,15 +1,20 @@
 <template>
   <q-page class="flex flex-center">
-    <div class="text-right">
-      <logo-component height="75px" class="q-ma-lg" />
-      <h4 class="q-mr-lg text-primary">Dashboard</h4>
-    </div>
-    <div>
+    <div class="text-center">
+      <logo-component height="3rem" />
+      <q-space />
+      <div class="q-mt-sm q-mb-lg text-caption">
+        <b>DASHBOARD</b>
+        &nbsp;
+        <version />
+      </div>
+      <q-space />
       <q-btn-toggle
-        unelevated
-        class="q-mb-sm"
         v-model="tenant"
-        toggle-color="primary"
+        color="light-grey"
+        text-color="dark-grey"
+        toggle-color="white"
+        toggle-text-color="primary"
         :options="[
           { label: 'I am a Reseller', value: 'resellers' },
           { label: 'I am a Retailer', value: 'retailers' },
@@ -28,6 +33,7 @@ import { ref, onMounted } from 'vue';
 import { auth, authUI } from 'boot/firebase';
 import { useRouter } from 'vue-router';
 import LogoComponent from 'components/LogoComponent.vue';
+import Version from 'components/Version.vue';
 
 const router = useRouter();
 

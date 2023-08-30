@@ -49,13 +49,12 @@
       <router-view />
     </q-page-container>
 
-    <q-footer style="background-color: transparent;">
-      <div class="q-ma-lg text-accent text-right" >
-        &copy; 2023 Tagd
-        &nbsp;|&nbsp;
+    <q-footer style="background-color: transparent">
+      <div class="q-ma-lg text-accent text-right">
+        &copy; 2023 Tagd &nbsp;|&nbsp;
         <a href="support@tagd.co.uk" class="text-accent">support@tagd.co.uk</a>
         &nbsp;|&nbsp;
-        <q-badge color="secondary">dashboard beta v.0.1</q-badge>
+        <version />
       </div>
     </q-footer>
 
@@ -84,6 +83,7 @@
 import { computed, ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import LogoComponent from 'components/LogoComponent.vue';
+import Version from 'components/Version.vue';
 import { auth } from 'boot/firebase';
 import { useAuthStore } from 'stores/auth';
 import { useMeStore } from 'stores/me';
