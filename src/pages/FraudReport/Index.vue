@@ -1,6 +1,10 @@
 <template>
   <div class="q-pa-lg">
-    <div class="text-h4 q-mb-md">Fraud Report</div>
+    <div class="text-h5 q-mx-md text-bold">Fraud Report</div>
+    <div class="text-accent q-mx-md">
+      Filter and visualize the number of items grouped by its trust score
+    </div>
+    <q-separator class="q-my-lg" />
 
     <q-card flat>
       <q-card-section horizontal>
@@ -25,7 +29,7 @@
         <q-separator vertical />
 
         <q-card-section class="full-width">
-          <q-card bordered>
+          <q-card flat>
             <q-card-section>
               <Graph
                 :date-from="dateFrom"
@@ -36,7 +40,7 @@
             </q-card-section>
           </q-card>
 
-          <q-card bordered class="q-mt-sm">
+          <q-card flat class="q-mt-sm">
             <q-card-section>
               <Details
                 :date-from="dateFrom"

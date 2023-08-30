@@ -1,6 +1,8 @@
 <template>
   <div class="q-pa-lg">
-    <div class="text-h6">Monthly summary</div>
+    <div class="text-h5 q-mx-md text-bold">Welcome, {{ myName }}</div>
+    <div class="text-accent q-mx-md">This is your dashboard at {{ today }}</div>
+    <q-separator class="q-my-lg" />
     <div class="row">
       <div class="col q-ma-sm" v-if="isRetailer">
         <return-rate />
@@ -9,7 +11,7 @@
         <avg-resale-value />
       </div>
     </div>
-    <div class="row q-mt-lg">
+    <div class="row">
       <div class="col q-ma-sm">
         <popular-categories />
       </div>
@@ -38,6 +40,13 @@ const isRetailer = computed(() => {
   return storeMe.isRetailer;
 });
 
-onMounted(() => {
+const myName = computed(() => {
+  return storeMe.data.name;
 });
+
+const today = computed(() => {
+  return new Date().toLocaleDateString() + new Date().toLocaleTimeString();
+});
+
+onMounted(() => {});
 </script>

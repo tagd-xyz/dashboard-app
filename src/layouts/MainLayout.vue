@@ -1,6 +1,6 @@
 <template>
-  <q-layout view="hHh lpR fFf">
-    <q-header elevated class="bg-primary text-white" height-hint="98">
+  <q-layout view="hHh lpR fFf" class="layout">
+    <q-header class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-toolbar-title>
           <logo-component variant="dark" />
@@ -49,6 +49,15 @@
       <router-view />
     </q-page-container>
 
+    <q-footer style="background-color: transparent">
+      <div class="q-ma-lg text-accent text-right">
+        &copy; 2023 Tagd &nbsp;|&nbsp;
+        <a href="support@tagd.co.uk" class="text-accent">support@tagd.co.uk</a>
+        &nbsp;|&nbsp;
+        <version />
+      </div>
+    </q-footer>
+
     <q-dialog v-model="showDialog" persistent>
       <q-card>
         <q-card-section class="row items-center">
@@ -74,6 +83,7 @@
 import { computed, ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import LogoComponent from 'components/LogoComponent.vue';
+import Version from 'components/Version.vue';
 import { auth } from 'boot/firebase';
 import { useAuthStore } from 'stores/auth';
 import { useMeStore } from 'stores/me';

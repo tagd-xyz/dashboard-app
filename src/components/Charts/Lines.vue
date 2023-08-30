@@ -14,6 +14,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  Filler,
 } from 'chart.js';
 import { Line } from 'vue-chartjs';
 import { computed } from 'vue';
@@ -24,7 +25,8 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler
 );
 
 // eslint-disable-next-line no-unused-vars
@@ -52,7 +54,6 @@ const data = computed(() => {
   return {
     title: 'test',
     labels: props.labels,
-    fill: true,
     datasets: [
       {
         responsive: true,
@@ -61,6 +62,7 @@ const data = computed(() => {
         data: props.data,
         tension: 0.7,
         showLine: true,
+        fill: 'origin',
       },
     ],
   };
@@ -69,7 +71,7 @@ const data = computed(() => {
 const options = computed(() => {
   return {
     responsive: true,
-    maintainAspectRatio: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         display: props.label != '',
