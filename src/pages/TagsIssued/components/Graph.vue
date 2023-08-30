@@ -1,15 +1,13 @@
 <template>
-  <div>
-    <Lines
-      class="q-mb-lg"
-      :labels="labels"
-      :data="values"
-      color="#70798c"
-      label="Total Items"
-      v-if="!isLoading"
-      style="height: 23rem"
-    />
-  </div>
+  <Lines
+    class="q-mb-lg full-width"
+    :labels="labels"
+    :data="values"
+    color="rgba(112, 121, 140, 0.7)"
+    label="Total Items"
+    v-if="!isLoading"
+    style="height: 23rem;"
+  />
 </template>
 
 <script setup>
