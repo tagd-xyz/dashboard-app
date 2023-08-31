@@ -12,7 +12,9 @@
       >
         <template #top-left>
           <div class="text-h6">Popular Categories</div>
-          <div class="text-caption text-accent">Top 5 categories in the last 6 months</div>
+          <div class="text-caption text-accent">
+            Top 5 categories in the last 6 months
+          </div>
         </template>
         <template v-slot:body="props">
           <q-tr :props="props">
