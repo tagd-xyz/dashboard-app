@@ -43,6 +43,7 @@
                 :date-to="dateTo"
                 :brands="brandsSelected"
                 :transfers-count="transfersCountSelected"
+                :currency="currencySelected"
               />
             </q-card-section>
           </q-card>
@@ -57,6 +58,7 @@
                 :countries="countriesSelected"
                 :city="citySelected"
                 :transfers-count="transfersCountSelected"
+                @selected="onCurrencySelected"
               />
             </q-card-section>
           </q-card>
@@ -84,6 +86,7 @@ const countriesSelected = ref(null);
 const modelSelected = ref(null);
 const citySelected = ref(null);
 const transfersCountSelected = ref('First');
+const currencySelected = ref('');
 
 const today = computed(() => {
   return date.formatDate(Date.now(), 'YYYY/MM/DD');
@@ -116,6 +119,10 @@ function onCountriesSelected(countries) {
   countriesSelected.value = countries.map((country) => {
     return referenceStore.countries.find((c) => c.name === country).code;
   });
+}
+
+function onCurrencySelected(row) {
+  currencySelected.value = row[0]?.currencyCode ?? '';
 }
 
 function onModelUpdated(model) {

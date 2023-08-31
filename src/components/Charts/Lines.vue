@@ -52,7 +52,7 @@ const props = defineProps({
 
 const data = computed(() => {
   return {
-    title: 'test',
+    title: '',
     labels: props.labels,
     datasets: [
       {

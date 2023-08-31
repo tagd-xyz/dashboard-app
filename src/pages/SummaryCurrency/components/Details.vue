@@ -6,11 +6,16 @@
       :rows="rows"
       :columns="columns"
       row-key="name"
+      selection="single"
+      v-model:selected="selected"
       :loading="isLoading"
       :pagination="pagination"
     >
       <template v-slot:body="props">
         <q-tr :props="props">
+          <q-td>
+            <q-checkbox v-model="props.selected" />
+          </q-td>
           <q-td key="currencyCode" :props="props">
             {{ props.row.currencyCode }}
           </q-td>
@@ -66,6 +71,8 @@ import { useResellersCurrencyStore } from 'stores/resellers/currency';
 import { useMeStore } from 'stores/me';
 import { computed, onMounted, ref, watch } from 'vue';
 
+const emit = defineEmits(['selected']);
+
 const retailersCurrencyStore = useRetailersCurrencyStore();
 const resellersCurrencyStore = useResellersCurrencyStore();
 const storeMe = useMeStore();
@@ -110,6 +117,12 @@ const props = defineProps({
       return null;
     },
   },
+});
+
+const selected = ref([]);
+
+watch(selected, (current) => {
+  emit('selected', current);
 });
 
 const pagination = ref({
@@ -283,7 +296,12 @@ watch(filter, () => {
 
 function fetch() {
   if (filter.value.dateFrom != '' && filter.value.dateTo != '') {
-    currencyStore.value.fetch(filter.value);
+    currencyStore.value.fetchList(filter.value).then(() => {
+      // automatically select first row
+      if (rows.value.length > 0) {
+        selected.value = [rows.value[0]];
+      }
+    });
   }
 }
 

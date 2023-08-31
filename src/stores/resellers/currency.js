@@ -22,11 +22,11 @@ export const useResellersCurrencyStore = defineStore('resellersCurrency', {
     },
   },
   actions: {
-    fetch(filter = {}) {
+    fetchList(filter = {}) {
       return new Promise((resolve, reject) => {
         this.is.fetchingDetails = true;
         api
-          .get('resellers/reporting/currency', {
+          .get('resellers/reporting/currency/list', {
             params: {
               ...filter,
             },
@@ -41,6 +41,28 @@ export const useResellersCurrencyStore = defineStore('resellersCurrency', {
           })
           .finally(() => {
             this.is.fetchingDetails = false;
+          });
+      });
+    },
+    fetchGraph(filter = {}) {
+      return new Promise((resolve, reject) => {
+        this.is.fetchingGraph = true;
+        api
+          .get('resellers/reporting/currency/graph', {
+            params: {
+              ...filter,
+            },
+          })
+          .then((response) => {
+            this.graph = response.data.data;
+            resolve(response);
+          })
+          .catch((error) => {
+            this.graph = [];
+            reject(error);
+          })
+          .finally(() => {
+            this.is.fetchingGraph = false;
           });
       });
     },
