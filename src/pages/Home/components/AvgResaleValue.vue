@@ -47,7 +47,7 @@
             {{ hasDecreased ? 'decreased' : 'increased' }}
             by {{ Math.abs(average) }}%
           </span>
-          <span>
+          <span v-else>
             The average resale value of your products has not changed
           </span>
         </div>
