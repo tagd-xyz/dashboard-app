@@ -6,8 +6,10 @@ export const useReferenceStore = defineStore('reference', {
   state: () => {
     return {
       brands: [],
+      countries: [],
       is: {
         fetchingBrands: false,
+        fetchingCountries: false,
       },
     };
   },
@@ -28,6 +30,24 @@ export const useReferenceStore = defineStore('reference', {
           })
           .finally(() => {
             this.is.fetchingBrands = false;
+          });
+      });
+    },
+    fetchCountries() {
+      return new Promise((resolve, reject) => {
+        this.is.fetchingCountries = true;
+        api
+          .get('retailers/reporting/ref/countries')
+          .then((response) => {
+            this.countries = response.data.data;
+            resolve(response);
+          })
+          .catch((error) => {
+            this.countries = [];
+            reject(error);
+          })
+          .finally(() => {
+            this.is.fetchingCountries = false;
           });
       });
     },

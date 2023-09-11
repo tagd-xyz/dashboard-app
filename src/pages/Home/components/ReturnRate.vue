@@ -15,8 +15,10 @@
             >Return Rate</span
           >
         </div>
-        <div class="text-caption text-accent">Return rate in the previous 6 months</div>
-        <Line :data="data" :options="options" style="max-height: 20rem;"/>
+        <div class="text-caption text-accent">
+          Return rate in the previous 6 months
+        </div>
+        <Line :data="data" :options="options" style="max-height: 20rem" />
       </q-card-section>
       <q-card-section v-if="!isLoading" horizontal vertical-middle>
         <div class="q-ma-sm">
@@ -39,8 +41,8 @@
           />
         </div>
         <div class="q-ma-sm text-h5 text-bold">{{ competitorsRate }}%</div>
-        <div class="q-ma-sm text-subtitle2" style="min-height: 3rem;">
-          <span v-if="hasIncreased || hasDecreased" >
+        <div class="q-ma-sm text-subtitle2" style="min-height: 3rem">
+          <span v-if="hasIncreased || hasDecreased">
             Your competitors have a {{ Math.abs(competitorsRate) }}%
             {{ hasDecreased ? 'less' : 'more' }} return rate.
           </span>
@@ -74,7 +76,7 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  Filler,
+  Filler
 );
 
 const retailersReturnRateStore = useRetailersReturnRateStore();
@@ -95,7 +97,7 @@ const data = computed(() => {
     ],
   };
 });
-1
+1;
 const labels = computed(() => {
   return retailersReturnRateStore.graph.map((item) => {
     const date = new Date(Date.parse(item.since));
@@ -148,6 +150,14 @@ const options = computed(() => {
   return {
     responsive: true,
     maintainAspectRatio: true,
+    scales: {
+      y: {
+        beginAtZero: true,
+        // ticks: {
+        //   stepSize: 1,
+        // },
+      },
+    },
   };
 });
 
