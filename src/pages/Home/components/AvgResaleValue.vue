@@ -160,6 +160,14 @@ const options = computed(() => {
   return {
     responsive: true,
     maintainAspectRatio: false,
+    scales: {
+      y: {
+        beginAtZero: true,
+        // ticks: {
+        //   stepSize: 1,
+        // },
+      },
+    },
   };
 });
 
