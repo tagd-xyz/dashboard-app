@@ -150,6 +150,14 @@ const options = computed(() => {
   return {
     responsive: true,
     maintainAspectRatio: true,
+    scales: {
+      y: {
+        beginAtZero: true,
+        // ticks: {
+        //   stepSize: 1,
+        // },
+      },
+    },
   };
 });
 
