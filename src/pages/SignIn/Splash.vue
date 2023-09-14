@@ -42,7 +42,6 @@ function signOutClick() {
 }
 
 onMounted(() => {
-  console.log('splash mounted');
   storeNetwork
     .fetchApiStatus()
     .then(() => {

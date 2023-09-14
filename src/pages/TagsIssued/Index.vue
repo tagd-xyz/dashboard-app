@@ -13,7 +13,7 @@
             <q-icon name="tune" class="q-mr-sm" />Filter
           </div> -->
           <Dates
-            :from="aMonthAgo"
+            :from="someTimeAgo"
             :to="today"
             class="q-ma-sm"
             @selected="onDatesSelected"
@@ -67,11 +67,11 @@ import Graph from './components/Graph.vue';
 import Details from './components/Details.vue';
 import Filter from './components/Filter.vue';
 import Dates from './components/Dates.vue';
-import { useReferenceStore } from 'stores/reference';
+import { useRetailersReferenceStore } from 'stores/retailers/reference';
 import { computed, onMounted, ref } from 'vue';
 import { date } from 'quasar';
 
-const referenceStore = useReferenceStore();
+const referenceStore = useRetailersReferenceStore();
 
 const dateFrom = ref('');
 const dateTo = ref('');
@@ -84,9 +84,9 @@ const today = computed(() => {
   return date.formatDate(Date.now(), 'YYYY/MM/DD');
 });
 
-const aMonthAgo = computed(() => {
+const someTimeAgo = computed(() => {
   return date.formatDate(
-    date.subtractFromDate(Date.now(), { months: 1 }),
+    date.subtractFromDate(Date.now(), { months: 3 }),
     'YYYY/MM/DD'
   );
 });
@@ -133,7 +133,7 @@ function fetch() {
 
 onMounted(() => {
   dateTo.value = today.value;
-  dateFrom.value = aMonthAgo.value;
+  dateFrom.value = someTimeAgo.value;
   fetch();
 });
 </script>
