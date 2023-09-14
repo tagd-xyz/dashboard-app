@@ -60,6 +60,11 @@ const routes = [
       },
     ],
   },
+  {
+    path: '/errorNetwork',
+    name: 'errorNetwork',
+    component: () => import('pages/ErrorNetwork.vue'),
+  },
 
   // Always leave this as last one,
   // but you can also remove it
