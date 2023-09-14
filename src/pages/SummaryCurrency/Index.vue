@@ -2,7 +2,7 @@
   <div class="q-pa-lg">
     <div class="text-h5 q-mx-md text-bold">Summary</div>
     <div class="text-accent q-mx-md">
-      Filter and visualize the number of items grouped by its trust score
+      Summary statistics
     </div>
     <q-separator class="q-my-lg" />
 
