@@ -25,11 +25,13 @@
 
 <script setup>
 import { useAuthStore } from 'stores/auth';
+import { useNetworkStore } from 'stores/network';
 import { useRouter } from 'vue-router';
 import { onMounted, ref } from 'vue';
 import { auth } from 'boot/firebase';
 
 const store = useAuthStore();
+const storeNetwork = useNetworkStore();
 const showMessage = ref(false);
 const router = useRouter();
 
@@ -40,16 +42,23 @@ function signOutClick() {
 }
 
 onMounted(() => {
-  setTimeout(() => {
-    if (store.isSignedIn) {
-      if (store.isEnabled) {
-        router.push({ name: 'home' });
-      } else {
-        showMessage.value = true;
-      }
-    } else {
-      router.push({ name: 'signIn' });
-    }
-  }, 1500);
+  console.log('splash mounted');
+  storeNetwork
+    .fetchApiStatus()
+    .then(() => {
+      setTimeout(() => {
+        if (store.isSignedIn) {
+          if (store.isEnabled) {
+            router.push({ name: 'home' });
+          } else {
+            showMessage.value = true;
+          }
+        } else {
+          router.push({ name: 'signIn' });
+        }
+      }, 1500);
+    }).catch(() => {
+      router.push({ name: 'errorNetwork' });
+    });
 });
 </script>
