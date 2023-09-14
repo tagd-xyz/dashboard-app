@@ -13,7 +13,7 @@
             <q-icon name="tune" class="q-mr-sm" />Filter
           </div> -->
           <Dates
-            :from="aMonthAgo"
+            :from="someTimeAgo"
             :to="today"
             class="q-ma-sm"
             @selected="onDatesSelected"
@@ -61,30 +61,42 @@ import Graph from './components/Graph.vue';
 import Details from './components/Details.vue';
 import Filter from './components/Filter.vue';
 import Dates from './components/Dates.vue';
-import { useReferenceStore } from 'stores/reference';
+import { useRetailersReferenceStore } from 'stores/retailers/reference';
+import { useResellersReferenceStore } from 'stores/resellers/reference';
+import { useMeStore } from 'stores/me';
 import { computed, onMounted, ref } from 'vue';
 import { date } from 'quasar';
 
-const referenceStore = useReferenceStore();
+const retailersReferenceStore = useRetailersReferenceStore();
+const resellersReferenceStore = useResellersReferenceStore();
+const storeMe = useMeStore();;
 
 const dateFrom = ref('');
 const dateTo = ref('');
 const brandsSelected = ref(null);
 const transfersCountSelected = ref('First');
 
+const referenceStore = computed(() => {
+  return isRetailer.value ? retailersReferenceStore : resellersReferenceStore;
+});
+
+const isRetailer = computed(() => {
+  return storeMe.isRetailer;
+});
+
 const today = computed(() => {
   return date.formatDate(Date.now(), 'YYYY/MM/DD');
 });
 
-const aMonthAgo = computed(() => {
+const someTimeAgo = computed(() => {
   return date.formatDate(
-    date.subtractFromDate(Date.now(), { months: 1 }),
+    date.subtractFromDate(Date.now(), { months: 3 }),
     'YYYY/MM/DD'
   );
 });
 
 const brands = computed(() => {
-  return referenceStore.brands.map((brand) => {
+  return referenceStore.value.brands.map((brand) => {
     return brand.name;
   });
 });
@@ -103,12 +115,12 @@ function onDatesSelected(range) {
 }
 
 function fetch() {
-  referenceStore.fetchBrands();
+  referenceStore.value.fetchBrands();
 }
 
 onMounted(() => {
   dateTo.value = today.value;
-  dateFrom.value = aMonthAgo.value;
+  dateFrom.value = someTimeAgo.value;
   fetch();
 });
 </script>
