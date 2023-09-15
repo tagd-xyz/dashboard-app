@@ -89,7 +89,7 @@ const data = computed(() => {
         backgroundColor: [color.value],
         label: 'Return Rate',
         data: values.value,
-        tension: 0.5,
+        tension: 0.3,
         showLine: true,
         borderWidth: 6,
         fill: 'origin',

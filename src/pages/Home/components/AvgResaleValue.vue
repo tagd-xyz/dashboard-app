@@ -120,7 +120,7 @@ const data = computed(() => {
         label: 'Avg. Resale Value',
         backgroundColor: color.value,
         data: values.value,
-        tension: 0.5,
+        tension: 0.3,
         showLine: true,
         borderWidth: 6,
         fill: 'origin',

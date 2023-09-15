@@ -67,7 +67,7 @@ const props = defineProps({
 const data = computed(() => {
   const dataset = {
     responsive: true,
-    tension: 0.25,
+    tension: 0.3,
     showLine: true,
     borderWidth: 2,
     fill: false,
