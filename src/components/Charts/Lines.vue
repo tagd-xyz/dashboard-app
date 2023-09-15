@@ -60,7 +60,7 @@ const data = computed(() => {
         label: props.label,
         backgroundColor: props.color,
         data: props.data,
-        tension: 0.7,
+        tension: 0.3,
         showLine: true,
         fill: 'origin',
       },
@@ -77,6 +77,11 @@ const options = computed(() => {
         display: props.label != '',
       },
     },
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    }
   };
 });
 </script>
