@@ -1,11 +1,9 @@
 import { boot } from 'quasar/wrappers';
 import { useNetworkStore } from 'stores/network';
-import { ref, watch } from 'vue';
+import { ref, computed, watch } from 'vue';
 
 const store = useNetworkStore();
 const theRouter = ref(null);
-
-const isApiOk = ref(null);
 
 export default boot(({ router }) => {
   theRouter.value = router;
@@ -14,7 +12,7 @@ export default boot(({ router }) => {
   store.setInterval(
     setInterval(() => {
       check();
-    }, 1 * 60 * 1000) // 1 minute
+    }, 1 * 60 * 1000)  // 1 minute
   );
 
   store.setNetworkOk(navigator.onLine);
@@ -29,15 +27,13 @@ export default boot(({ router }) => {
 
 function check() {
   if (!store.isNetworkDown) {
-    store.fetchApiStatus()
-      .then(() => {
-        isApiOk.value = true;
-      })
-      .catch(() => {
-        isApiOk.value = false;
-      });
+    store.fetchApiStatus();
   }
 }
+
+const isApiOk = computed(() => {
+  return store.is.apiOk;
+});
 
 watch(isApiOk, () => {
   if (theRouter.value) {
