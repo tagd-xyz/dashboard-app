@@ -56,7 +56,8 @@ onMounted(() => {
           router.push({ name: 'signIn' });
         }
       }, 1500);
-    }).catch(() => {
+    })
+    .catch(() => {
       router.push({ name: 'errorNetwork' });
     });
 });
