@@ -1,15 +1,8 @@
 <template>
   <div>
     <q-card class="q-py-sm">
-      <q-table
-        dense
-        :rows="rows"
-        :columns="columns"
-        row-key="name"
-        :hide-header="true"
-        :hide-bottom="true"
-        :loading="isLoading"
-      >
+      <q-table dense :rows="rows" :columns="columns" row-key="name" :hide-header="true" :hide-bottom="true"
+        :loading="isLoading">
         <template #top-left>
           <div class="text-h6">Popular Re-Sale Items</div>
           <div class="text-caption text-accent">
@@ -28,18 +21,8 @@
             <q-td key="total" :props="props">
               <span class="text-bold">
                 {{ props.row.total }}
-                <q-icon
-                  size="xs"
-                  name="north_east"
-                  color="positive"
-                  v-if="props.row.delta > 0"
-                />
-                <q-icon
-                  size="xs"
-                  name="south_east"
-                  color="negative"
-                  v-if="props.row.delta < 0"
-                />
+                <q-icon size="xs" name="north_east" color="positive" v-if="props.row.delta > 0" />
+                <q-icon size="xs" name="south_east" color="negative" v-if="props.row.delta < 0" />
               </span>
               <br />
               <small>Resale Frequency</small>
@@ -126,5 +109,5 @@ const isLoading = computed(() => {
   return resaleFrequencyStore.value && resaleFrequencyStore.value.isFetching;
 });
 
-onMounted(() => {});
+onMounted(() => { });
 </script>

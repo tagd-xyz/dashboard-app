@@ -1,14 +1,6 @@
 <template>
   <div>
-    <q-table
-      dense
-      flat
-      :rows="rows"
-      :columns="columns"
-      row-key="name"
-      :loading="isLoading"
-      :pagination="pagination"
-    >
+    <q-table dense flat :rows="rows" :columns="columns" row-key="name" :loading="isLoading" :pagination="pagination">
       <template v-slot:body="props">
         <q-tr :props="props">
           <q-td key="soldOn" :props="props">
@@ -125,8 +117,8 @@ const rows = computed(() => {
         null == row.hasCustomerRegistered
           ? 'Unknown'
           : row.hasCustomerRegistered
-          ? 'Registered'
-          : 'Unregistered',
+            ? 'Registered'
+            : 'Unregistered',
       status: row.status,
       name: row.item.name,
       type: row.item.type.name,

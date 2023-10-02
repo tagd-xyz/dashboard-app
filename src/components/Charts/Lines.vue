@@ -41,12 +41,12 @@ const props = defineProps({
   labels: {
     type: Array,
     required: true,
-    default: () => {},
+    default: () => { },
   },
   data: {
     type: Array,
     required: true,
-    default: () => {},
+    default: () => { },
   },
 });
 

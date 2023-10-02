@@ -1,9 +1,5 @@
 <template>
-  <Brands
-    :options="props.brands"
-    @selected="onBrandsSelected"
-    class="q-mb-md"
-  />
+  <Brands :options="props.brands" @selected="onBrandsSelected" class="q-mb-md" />
   <CustomerStatus @selected="onCustomerStatusSelected" class="q-mb-md" />
   <Transfers @selected="onTransfersCountSelected" class="q-mb-md" />
   <TagsStatus @selected="onTagsStatusSelected" class="q-mb-md" />

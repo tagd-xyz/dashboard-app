@@ -14,14 +14,14 @@ export const useNetworkStore = defineStore('network', {
   },
   getters: {
     isAllOk() {
-      return (null!=this.is.networkOk && !this.is.networkOk)
-        && (null!==this.is.apiOk && !this.is.apiOk);
+      return (null != this.is.networkOk && !this.is.networkOk)
+        && (null !== this.is.apiOk && !this.is.apiOk);
     },
     isNetworkDown() {
-      return null!=this.is.networkOk && !this.is.networkOk;
+      return null != this.is.networkOk && !this.is.networkOk;
     },
     isApiDown() {
-      return !this.isNetworkDown && null!==this.is.apiOk && !this.is.apiOk;
+      return !this.isNetworkDown && null !== this.is.apiOk && !this.is.apiOk;
     },
   },
   actions: {

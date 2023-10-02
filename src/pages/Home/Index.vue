@@ -48,5 +48,5 @@ const today = computed(() => {
   return new Date().toLocaleDateString() + new Date().toLocaleTimeString();
 });
 
-onMounted(() => {});
+onMounted(() => { });
 </script>

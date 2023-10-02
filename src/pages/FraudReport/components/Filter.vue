@@ -1,9 +1,5 @@
 <template>
-  <Brands
-    :options="props.brands"
-    @selected="onBrandsSelected"
-    class="q-mb-md"
-  />
+  <Brands :options="props.brands" @selected="onBrandsSelected" class="q-mb-md" />
 </template>
 
 <script setup>

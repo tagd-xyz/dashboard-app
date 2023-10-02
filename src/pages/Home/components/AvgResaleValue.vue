@@ -7,13 +7,10 @@
       </q-card-section>
       <q-card-section v-if="!isLoading">
         <div class="text-h6">
-          <span
-            :class="{
-              'text-negative': hasDecreased,
-              'text-positive': hasIncreased,
-            }"
-            >Average Resale Value</span
-          >
+          <span :class="{
+            'text-negative': hasDecreased,
+            'text-positive': hasIncreased,
+          }">Average Resale Value</span>
         </div>
         <div class="text-caption text-accent">
           Average resale value in the previous 6 months
@@ -22,23 +19,9 @@
       </q-card-section>
       <q-card-section v-if="!isLoading" horizontal vertical-middle>
         <div class="q-ma-sm">
-          <q-icon
-            size="lg"
-            name="north_east"
-            color="positive"
-            v-if="hasIncreased"
-          />
-          <q-icon
-            size="lg"
-            name="south_east"
-            color="negative"
-            v-if="hasDecreased"
-          />
-          <q-icon
-            size="lg"
-            name="trending_flat"
-            v-if="!hasDecreased && !hasIncreased"
-          />
+          <q-icon size="lg" name="north_east" color="positive" v-if="hasIncreased" />
+          <q-icon size="lg" name="south_east" color="negative" v-if="hasDecreased" />
+          <q-icon size="lg" name="trending_flat" v-if="!hasDecreased && !hasIncreased" />
         </div>
         <div class="q-ma-sm text-h5 text-bold">{{ average }}%</div>
         <div class="q-ma-sm text-subtitle2" style="min-height: 3rem">
@@ -193,5 +176,5 @@ const isLoading = computed(() => {
   return avgResaleValuesStore.value && avgResaleValuesStore.value.isFetching;
 });
 
-onMounted(() => {});
+onMounted(() => { });
 </script>

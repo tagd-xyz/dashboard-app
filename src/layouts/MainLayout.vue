@@ -9,13 +9,8 @@
         </q-toolbar-title>
         <q-btn-dropdown flat icon="person" :label="userName">
           <q-list bordered separator>
-            <q-item
-              clickable
-              v-close-popup
-              v-for="actor in me.actors"
-              :key="actor.id"
-              @click="onProfileClicked(actor.id)"
-            >
+            <q-item clickable v-close-popup v-for="actor in me.actors" :key="actor.id"
+              @click="onProfileClicked(actor.id)">
               <q-item-section>
                 <q-item-label>{{ actor.name }}</q-item-label>
                 <q-item-label caption class="actor">{{
@@ -32,13 +27,7 @@
         </q-btn-dropdown>
       </q-toolbar>
 
-      <q-tabs
-        dense
-        active-bg-color="secondary"
-        active-color="white"
-        align="left"
-        v-if="isRetailer"
-      >
+      <q-tabs dense active-bg-color="secondary" active-color="white" align="left" v-if="isRetailer">
         <q-route-tab to="/home" label="Home" />
         <q-route-tab to="/tags-issued" label="Tags Issued" />
         <q-route-tab to="/time-to-transfer" label="Time to transfer" />
@@ -46,13 +35,7 @@
         <q-route-tab to="/summary-currency" label="Summary" />
       </q-tabs>
 
-      <q-tabs
-        dense
-        active-bg-color="secondary"
-        active-color="white"
-        align="left"
-        v-if="isReseller"
-      >
+      <q-tabs dense active-bg-color="secondary" active-color="white" align="left" v-if="isReseller">
         <q-route-tab to="/home" label="Home" />
         <q-route-tab to="/time-to-transfer" label="Time to transfer" />
         <q-route-tab to="/fraud-report" label="Fraud report" />
@@ -81,13 +64,7 @@
 
         <q-card-actions align="right">
           <q-btn flat label="No" color="primary" v-close-popup />
-          <q-btn
-            flat
-            label="Yes, sign out"
-            color="primary"
-            v-close-popup
-            @click="onSignOutClicked"
-          />
+          <q-btn flat label="Yes, sign out" color="primary" v-close-popup @click="onSignOutClicked" />
         </q-card-actions>
       </q-card>
     </q-dialog>

@@ -1,14 +1,7 @@
 <template>
   <div>
-    <Lines
-      class="q-mb-lg"
-      :labels="labels"
-      :data="values"
-      color="#70798c"
-      v-if="!isLoading"
-      style="height: 23rem"
-      label="Total Items"
-    />
+    <Lines class="q-mb-lg" :labels="labels" :data="values" color="#70798c" v-if="!isLoading" style="height: 23rem"
+      label="Total Items" />
   </div>
 </template>
 

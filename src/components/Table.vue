@@ -10,15 +10,7 @@
         </q-input>
       </div>
     </div> -->
-    <q-table
-      dense
-      flat
-      :rows="rows"
-      :columns="columns"
-      row-key="name"
-      :loading="isLoading"
-      :pagination="pagination"
-    >
+    <q-table dense flat :rows="rows" :columns="columns" row-key="name" :loading="isLoading" :pagination="pagination">
       <template v-slot:body="props">
         <q-tr :props="props">
           <q-td key="image" :props="props">
@@ -81,5 +73,5 @@ const props = defineProps({
   },
 });
 
-onMounted(() => {});
+onMounted(() => { });
 </script>

@@ -12,25 +12,14 @@
           <!-- <div class="text-subtitle1 q-mb-sm">
             <q-icon name="tune" class="q-mr-sm" />Filter
           </div> -->
-          <Dates
-            :from="someTimeAgo"
-            :to="today"
-            class="q-ma-sm"
-            @selected="onDatesSelected"
-          />
+          <Dates :from="someTimeAgo" :to="today" class="q-ma-sm" @selected="onDatesSelected" />
 
           {{ modelSelected }}
           {{ citySelected }}
 
-          <Filter
-            :brands="brands"
-            :countries="countries"
-            @brands-selected="onBrandsSelected"
-            @model-updated="onModelUpdated"
-            @countries-selected="onCountriesSelected"
-            @city-updated="onCityUpdated"
-            @transfersCountSelected="onTransfersCountSelected"
-          />
+          <Filter :brands="brands" :countries="countries" @brands-selected="onBrandsSelected"
+            @model-updated="onModelUpdated" @countries-selected="onCountriesSelected" @city-updated="onCityUpdated"
+            @transfersCountSelected="onTransfersCountSelected" />
         </q-card-section>
 
         <q-separator vertical />
@@ -38,28 +27,16 @@
         <q-card-section class="full-width">
           <q-card flat>
             <q-card-section>
-              <Graph
-                :date-from="dateFrom"
-                :date-to="dateTo"
-                :brands="brandsSelected"
-                :transfers-count="transfersCountSelected"
-                :currency="currencySelected"
-              />
+              <Graph :date-from="dateFrom" :date-to="dateTo" :brands="brandsSelected"
+                :transfers-count="transfersCountSelected" :currency="currencySelected" />
             </q-card-section>
           </q-card>
 
           <q-card flat class="q-mt-sm">
             <q-card-section>
-              <Details
-                :date-from="dateFrom"
-                :date-to="dateTo"
-                :brands="brandsSelected"
-                :model="modelSelected"
-                :countries="countriesSelected"
-                :city="citySelected"
-                :transfers-count="transfersCountSelected"
-                @selected="onCurrencySelected"
-              />
+              <Details :date-from="dateFrom" :date-to="dateTo" :brands="brandsSelected" :model="modelSelected"
+                :countries="countriesSelected" :city="citySelected" :transfers-count="transfersCountSelected"
+                @selected="onCurrencySelected" />
             </q-card-section>
           </q-card>
         </q-card-section>
@@ -81,7 +58,7 @@ import { date } from 'quasar';
 
 const retailersReferenceStore = useRetailersReferenceStore();
 const resellersReferenceStore = useResellersReferenceStore();
-const storeMe = useMeStore();;
+const storeMe = useMeStore();
 
 const dateFrom = ref('');
 const dateTo = ref('');

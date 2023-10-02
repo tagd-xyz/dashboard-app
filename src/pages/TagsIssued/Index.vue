@@ -12,48 +12,27 @@
           <!-- <div class="text-subtitle1 q-mb-sm">
             <q-icon name="tune" class="q-mr-sm" />Filter
           </div> -->
-          <Dates
-            :from="someTimeAgo"
-            :to="today"
-            class="q-ma-sm"
-            @selected="onDatesSelected"
-          />
+          <Dates :from="someTimeAgo" :to="today" class="q-ma-sm" @selected="onDatesSelected" />
 
-          <Filter
-            :brands="brands"
-            @brands-selected="onBrandsSelected"
-            @tags-status-selected="onTagsStatusSelected"
-            @customer-status-selected="onCustomerStatusSelected"
-            @transfers-count-selected="onTransfersCountSelected"
-          />
+          <Filter :brands="brands" @brands-selected="onBrandsSelected" @tags-status-selected="onTagsStatusSelected"
+            @customer-status-selected="onCustomerStatusSelected" @transfers-count-selected="onTransfersCountSelected" />
         </q-card-section>
 
         <q-separator vertical />
-
         <q-card-section class="full-width">
           <q-card flat>
             <q-card-section>
-              <Graph
-                :date-from="dateFrom"
-                :date-to="dateTo"
-                :status="statusSelected"
-                :customer-registered="customerStatusSelected"
-                :transfers-count="transfersCountSelected"
-                :brands="brandsSelected"
-              />
+              <Graph :date-from="dateFrom" :date-to="dateTo" :status="statusSelected"
+                :customer-registered="customerStatusSelected" :transfers-count="transfersCountSelected"
+                :brands="brandsSelected" />
             </q-card-section>
           </q-card>
 
           <q-card flat class="q-mt-sm">
             <q-card-section>
-              <Details
-                :date-from="dateFrom"
-                :date-to="dateTo"
-                :status="statusSelected"
-                :customer-registered="customerStatusSelected"
-                :transfers-count="transfersCountSelected"
-                :brands="brandsSelected"
-              />
+              <Details :date-from="dateFrom" :date-to="dateTo" :status="statusSelected"
+                :customer-registered="customerStatusSelected" :transfers-count="transfersCountSelected"
+                :brands="brandsSelected" />
             </q-card-section>
           </q-card>
         </q-card-section>

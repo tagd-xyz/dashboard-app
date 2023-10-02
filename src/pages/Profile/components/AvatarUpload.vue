@@ -16,40 +16,9 @@
       {{ infoMessage }}
     </p>
 
-    <q-uploader
-      :disable="disable"
-      square
-      flat
-      color="grey-7"
-      class="full-width"
-      method="PUT"
-      :url="uploadUrl"
-      :label="uploadMessage"
-      :sendRaw="true"
-      @added="onUploadAdd"
-      @removed="onUploadRemoved"
-      @failed="onUploadFail"
-      @uploaded="onUploadSuccess"
-      ref="uploader"
-    />
-
-    <!-- <q-uploader
-      flat
-      color="primary"
-      class="full-width q-ml-lg"
-      :url="uploadDetails?.url ?? null"
-      :label="uploadLogoMessage"
-      accept=".jpg, image/*"
-      method="PUT"
-      @added="onUploadAdd"
-      @failed="onUploadFail"
-      @uploaded="onUploadSuccess"
-    />
-
-    <p class="text-negative" v-if="uploadFailMessage">
-      {{ uploadFailMessage }}
-    </p>
-     -->
+    <q-uploader :disable="disable" square flat color="grey-7" class="full-width" method="PUT" :url="uploadUrl"
+      :label="uploadMessage" :sendRaw="true" @added="onUploadAdd" @removed="onUploadRemoved" @failed="onUploadFail"
+      @uploaded="onUploadSuccess" ref="uploader" />
   </div>
 </template>
 
@@ -126,12 +95,4 @@ function reset() {
   errorMessage.value = null;
   uploader.value.reset();
 }
-
-// function factory(files) {
-//   return new Promise(() => {
-//     return {
-//       sendRaw: true,
-//     };
-//   });
-// }
 </script>

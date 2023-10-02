@@ -4,14 +4,7 @@
     <div class="q-mt-sm">
       {{ rangeForHumans }}
     </div>
-    <q-date
-      v-model="range"
-      range
-      flat
-      minimal
-      color="primary"
-      @update:model-value="onSelected"
-    />
+    <q-date v-model="range" range flat minimal color="primary" @update:model-value="onSelected" />
   </div>
 </template>
 
@@ -55,7 +48,7 @@ const rangeForHumans = computed(() => {
   }
 });
 
-onMounted(() => {});
+onMounted(() => { });
 
 function onSelected() {
   if (range.value) {

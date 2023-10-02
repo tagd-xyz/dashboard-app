@@ -27,7 +27,7 @@ const options = computed(() => {
   return ['Any'].concat(props.options);
 });
 
-onMounted(() => {});
+onMounted(() => { });
 
 watch(data, (current, before) => {
   if (
